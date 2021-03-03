@@ -1,15 +1,12 @@
 #include "lattice_functions.h"
 
-/*void create_lattice(){
-    public_lattice.metadata.dim_n = VECTOR_SIZE;
-    public_lattice.metadata.dim_m = NBR_VECTORS;
-    public_lattice.metadata.max = MODULO_LATTICE;
-    int i;
+void create_random_lattice(int n, int m, double output[n][m]){
+    int i, j;
 
-    for (i = 0; i<public_lattice.metadata.dim_n; i++) {
-        public_lattice.vectors[i] = rand()%public_lattice.metadata.max;
-    }//end if
-}//end create_lattice()*/
+    for (i = 0; i<n; i++)
+        for (j = 0; j < m; j++)
+            output[i][j] = rand()%MODULO_LATTICE;
+}//end create_lattice()
 
 void build_new_lattice(double public_lattice[VECTOR_SIZE][VECTOR_SIZE], double private_lattice_2[VECTOR_SIZE][VECTOR_SIZE]){
     int i, j;
@@ -43,7 +40,7 @@ void public_generation(double private_lattice[VECTOR_SIZE][VECTOR_SIZE], double 
     }
 }
 
-void private_generation(double public_lattice[VECTOR_SIZE][VECTOR_SIZE], double private_lattice[VECTOR_SIZE][VECTOR_SIZE]){
+void public_to_new_private(double public_lattice[VECTOR_SIZE][VECTOR_SIZE], double private_lattice[VECTOR_SIZE][VECTOR_SIZE]){
     int i;
     for(i = 0; i < VECTOR_SIZE; i++) {
 
