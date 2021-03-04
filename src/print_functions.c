@@ -1,0 +1,20 @@
+//
+// Created by Nathan on 03/03/2021.
+//
+#include "print_functions.h"
+
+void print_matrix(int m, int n, double matrix[m][n]){
+    int i,j;
+    for(i=0; i<m; i++){
+        for(j=0; j<n; j++)
+            printf("%10.2f", matrix[i][j]);
+        printf("\n");
+    }
+}
+
+void print_vector(int n, double vector[n]){
+    int i;
+    for(i=0; i<n; i++)
+            printf("%10.2f", vector[i]);
+    printf("\n");
+}

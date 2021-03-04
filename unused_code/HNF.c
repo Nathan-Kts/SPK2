@@ -70,7 +70,7 @@ Authors:
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include "../math_functions.c"
+#include "../src/math_functions.c"
 
 
 //Numerically stable gram schmidt algorithm

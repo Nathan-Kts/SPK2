@@ -6,6 +6,7 @@
 #define TFE_KEM_LATTICE_FUNCTIONS_H
 
 #include "parameters.h"
+#include "math_functions.h"
 
 void build_new_lattice(double public_lattice[VECTOR_SIZE][VECTOR_SIZE], double private_lattice_2[VECTOR_SIZE][VECTOR_SIZE]);
 void create_random_lattice(int n, int m, double output[n][m]);
