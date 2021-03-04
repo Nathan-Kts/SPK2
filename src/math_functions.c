@@ -16,7 +16,7 @@ double exp(double input){
  * @param b The divisor
  * @return The computed number
  */
-long mod(long a, long b){
+long mod(long a, int b){
     long output = a % b;
     if(output < 0)
         output+=b;
@@ -108,7 +108,7 @@ double product_vector_vector(int nbr_vectors, int vector_size, double vector_1[n
  */
 void product_matrix_prime_matrix(int nbr_vectors, int vector_size, double matrix_1[nbr_vectors][vector_size], double matrix_2[nbr_vectors][vector_size], double output[nbr_vectors][vector_size]){
     int i, j, k;
-    for(i = 0; i < vector_size; i++){
+    for(i = 0; i < vector_size; i++){ //TODO Not shure to verify that is is vector_size
         for(j = 0; j < vector_size; j++){
             output[i][j] = 0;
             for(k = 0; k < nbr_vectors; k++)
@@ -124,14 +124,14 @@ void product_matrix_prime_matrix(int nbr_vectors, int vector_size, double matrix
  * @param matrix_2 The second matrix
  * @param output The product of the matrices
  */
-void product_matrix_matrix(double matrix_1[VECTOR_SIZE][VECTOR_SIZE], double matrix_2[VECTOR_SIZE][VECTOR_SIZE], double output[VECTOR_SIZE][VECTOR_SIZE]){
+void product_matrix_matrix(int nbr_vectors, int vector_size, double matrix_1[nbr_vectors][vector_size], double matrix_2[nbr_vectors][vector_size], double output[nbr_vectors][vector_size]){
     int i, j, k;
-    for(i = 0; i < VECTOR_SIZE; i++)
+    for(i = 0; i < vector_size; i++)
     {
-        for( j = 0; j < VECTOR_SIZE; j++)
+        for( j = 0; j < nbr_vectors; j++)
         {
             output[i][j]=0;
-            for(k = 0; k < VECTOR_SIZE; k++)
+            for(k = 0; k < vector_size; k++)
                 output[i][j]+= matrix_1[i][k] * matrix_2[k][j];
             output[i][j] = modd(output[i][j], MODULO_LATTICE);
         }
@@ -144,12 +144,12 @@ void product_matrix_matrix(double matrix_1[VECTOR_SIZE][VECTOR_SIZE], double mat
  * @param vector The vector
  * @param output
  */
-void product_matrix_vector(double matrix[VECTOR_SIZE][VECTOR_SIZE], double vector[VECTOR_SIZE], double output[VECTOR_SIZE]){
+void product_matrix_vector(int nbr_vectors, int vector_size, double matrix[nbr_vectors][vector_size], double vector[vector_size], double output[vector_size]){
     int i, j, k;
-    for(i = 0; i < VECTOR_SIZE; i++)
+    for(i = 0; i < nbr_vectors; i++)
     {
         output[i] = 0;
-        for(j = 0; j < VECTOR_SIZE; j++)
+        for(j = 0; j < vector_size; j++)
         {
             output[i]+=matrix[i][j]*vector[j];
         }
@@ -159,15 +159,16 @@ void product_matrix_vector(double matrix[VECTOR_SIZE][VECTOR_SIZE], double vecto
 
 /**
  * @brief Inverses a square matrix with Gauss Jordan Elimination
+ * @warning Matrix has to be square to invert
  * @param matrix Matrix to inverse
  * @param output The inverse of the matrix
  */
-void inversion_matrix(double matrix[VECTOR_SIZE][VECTOR_SIZE], double output[VECTOR_SIZE][VECTOR_SIZE]){
+void inversion_matrix(int vector_size, double matrix[vector_size][vector_size], double output[vector_size][vector_size]){
     int i, j, k;
     double temp;
     //creation of identity matrix
-    for (i = 0; i < VECTOR_SIZE; i++)
-        for (j = 0; j < VECTOR_SIZE; j++)
+    for (i = 0; i < vector_size; i++)
+        for (j = 0; j < vector_size; j++)
             if (i == j)
                 output[i][j] = 1;
             else
@@ -176,19 +177,19 @@ void inversion_matrix(double matrix[VECTOR_SIZE][VECTOR_SIZE], double output[VEC
 
     // Applying Gauss Jordan Elimination
     for (k = 0;
-         k < VECTOR_SIZE; k++)                                  //by some row operations,and the same row operations of
+         k < vector_size; k++)                                  //by some row operations,and the same row operations of
     {                                                       //Unit mat. I gives the inverse of matrix A
         temp = matrix[k][k];                   //'temp'
         // stores the A[k][k] value so that A[k][k]  will not change
-        for (j = 0; j < VECTOR_SIZE; j++)      //during the operation //A[i] //[j]/=A[k][k]  when i=j=k
+        for (j = 0; j < vector_size; j++)      //during the operation //A[i] //[j]/=A[k][k]  when i=j=k
         {
             matrix[k][j] /= temp;                                  //it performs // the following row operations to make A to unit matrix
             output[k][j] /= temp;                                  //R0=R0/A[0][0],similarly for I also
         }                                                   //R1=R1-R0*A[1][0] similarly for I
-        for (i = 0; i < VECTOR_SIZE; i++)                              //R2=R2-R0*A[2][0]      ,,
+        for (i = 0; i < vector_size; i++)                              //R2=R2-R0*A[2][0]      ,,
         {
             temp = matrix[i][k];                       //R1=R1/A[1][1]
-            for (j = 0; j < VECTOR_SIZE; j++)             //R0=R0-R1*A[0][1]
+            for (j = 0; j < vector_size; j++)             //R0=R0-R1*A[0][1]
             {                                   //R2=R2-R1*A[2][1]
                 if (i == k)
                     break;                      //R2=R2/A[2][2]

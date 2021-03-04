@@ -5,6 +5,6 @@
 #ifndef TFE_KEM_OTHER_FUNCTIONS_H
 #define TFE_KEM_OTHER_FUNCTIONS_H
 
-void duplicate_matrix(int m, int n, double input[m][n], double output[m][n]);
+void duplicate_matrix(int nbr_vectors, int vector_size, double input[nbr_vectors][vector_size], double output[nbr_vectors][vector_size]);
 
 #endif //TFE_KEM_OTHER_FUNCTIONS_H
