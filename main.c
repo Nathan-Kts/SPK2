@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <time.h>
+#include <crypto_functions.h>
+#include <sensor.h>
+#include <gateway.h>
 
 #include "src/parameters.h"
 #include "src/math_functions.c"
@@ -11,66 +14,34 @@
 int main()
 {
     //Gateway
-    double private_lattice_1[NBR_VECTORS][VECTOR_SIZE], public_lattice_1[NBR_VECTORS][VECTOR_SIZE];
-
-    create_random_lattice(NBR_VECTORS, VECTOR_SIZE, private_lattice_1);
-    printf("Private matrix : \n");
-    print_matrix(NBR_VECTORS, VECTOR_SIZE, private_lattice_1);
-
-    public_generation(NBR_VECTORS, VECTOR_SIZE, private_lattice_1, public_lattice_1);
-    printf("Public matrix : \n");
-    print_matrix(NBR_VECTORS, VECTOR_SIZE, public_lattice_1);
+    double private_lattice_g[NBR_VECTORS][VECTOR_SIZE], public_lattice_g[NBR_VECTORS][VECTOR_SIZE];
+    gateway(NBR_VECTORS, VECTOR_SIZE, private_lattice_g, public_lattice_g);
 
     //Sensor 1
-    double private_lattice_2[NBR_VECTORS][VECTOR_SIZE], public_lattice_2[NBR_VECTORS][VECTOR_SIZE];
-    //public_to_new_private(NBR_VECTORS, VECTOR_SIZE, public_lattice_1, private_lattice_2);
-    //public_to_new_private_copy_half(NBR_VECTORS, VECTOR_SIZE, public_lattice_1, private_lattice_2);
-    public_to_new_private_random_change(NBR_VECTORS, VECTOR_SIZE, public_lattice_1, private_lattice_2);
+    double intersection_1[NBR_VECTORS][VECTOR_SIZE], intersection_2[NBR_VECTORS][VECTOR_SIZE];
+    double private_lattice_1[NBR_VECTORS][VECTOR_SIZE], private_lattice_2[NBR_VECTORS][VECTOR_SIZE];
 
+    sensor(NBR_VECTORS, VECTOR_SIZE, public_lattice_g, private_lattice_1, intersection_1);
+    sensor(NBR_VECTORS, VECTOR_SIZE, intersection_1, private_lattice_2, intersection_2);
 
-    printf("New private matrix : \n");
-    print_matrix(NBR_VECTORS, VECTOR_SIZE, private_lattice_2);
-
-    public_generation(NBR_VECTORS, VECTOR_SIZE, private_lattice_2, public_lattice_2);
-    printf("New public matrix : \n");
-    print_matrix(NBR_VECTORS, VECTOR_SIZE, public_lattice_2);
-
-
-
-    double intersection[NBR_VECTORS][VECTOR_SIZE];
-    intersection_lattice(NBR_VECTORS, VECTOR_SIZE, public_lattice_1, public_lattice_2, intersection);
-
-    gauss_elimination(NBR_VECTORS, VECTOR_SIZE, intersection);
-
-    printf("Intersection matrix : \n");
-    print_matrix(NBR_VECTORS, VECTOR_SIZE, intersection);
-
+    //Broadcast
     time_t t;
     srand((unsigned) time(&t));
     int i;
     double secret[VECTOR_SIZE];
     for (i = 0; i < VECTOR_SIZE; ++i)
-        secret[i] = 32*(rand()%2);
+        secret[i] = (MODULO_LATTICE/2)*(rand()%2);
 
     double message[VECTOR_SIZE];
-    product_matrix_vector(NBR_VECTORS, VECTOR_SIZE, intersection, secret, message);
+    product_matrix_vector(NBR_VECTORS, VECTOR_SIZE, intersection_2, secret, message);
     noise_maker(VECTOR_SIZE, message);
     printf("Broadcast Message : \n");
     print_vector(VECTOR_SIZE, message);
 
-    double decode_1[VECTOR_SIZE];
-    product_matrix_vector(NBR_VECTORS, VECTOR_SIZE, private_lattice_1, message, decode_1);
-    printf("Message decoded by 1 : \n");
-    print_vector(VECTOR_SIZE, decode_1);
-    decoding(VECTOR_SIZE, decode_1);
-    print_vector(VECTOR_SIZE, decode_1);
-
-    double decode_2[VECTOR_SIZE];
-    product_matrix_vector(NBR_VECTORS, VECTOR_SIZE, private_lattice_2, message, decode_2);
-    printf("Message decoded by 2 : \n");
-    print_vector(VECTOR_SIZE, decode_2);
-    decoding(VECTOR_SIZE, decode_2);
-    print_vector(VECTOR_SIZE, decode_2);
+    //Decode
+    double decode_1[VECTOR_SIZE], decode_2[VECTOR_SIZE];
+    decode(NBR_VECTORS, VECTOR_SIZE, private_lattice_1, message, decode_1);
+    decode(NBR_VECTORS, VECTOR_SIZE, private_lattice_2, message, decode_2);
 
     int j = 0;
     for (i = 0; i < VECTOR_SIZE; ++i) {
