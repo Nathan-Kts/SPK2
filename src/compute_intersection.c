@@ -1,4 +1,7 @@
+#include <printf.h>
 #include "compute_intersection.h"
+#include "math_functions.h"
+#include "gaus_elimination.h"
 
 /**
  * @brief Computes the dual of a specified lattice and writes it in output
@@ -13,7 +16,6 @@ void dual(int nbr_vectors, int vector_size, double input[nbr_vectors][vector_siz
 
     if(vector_size != nbr_vectors){
         printf("Matrices not square for dual !");
-        exit(42);
     }
 
     /*printf("Entry : \n");
