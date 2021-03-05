@@ -8,7 +8,11 @@ set(HEADER_FILES
         other_functions.h
         parameters.h
         print_functions.h
-        public_to_private.h)
+        public_to_private.h
+        crypto_functions.h
+        sensor.h
+        gateway.h
+        )
 
 set(SOURCE_FILES
         compute_intersection.c
@@ -18,6 +22,9 @@ set(SOURCE_FILES
         other_functions.c
         print_functions.c
         public_to_private.c
+        crypto_functions.c
+        sensor.c
+        gateway.c
         )
 
 add_library(src STATIC ${SOURCE_FILES} ${HEADER_FILES})
