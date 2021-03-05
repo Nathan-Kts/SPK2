@@ -11,7 +11,10 @@ void create_random_lattice(int n, int m, double output[n][m]){
 
     for (i = 0; i<n; i++)
         for (j = 0; j < m; j++)
-            output[i][j] = rand()%MODULO_LATTICE;
+            if (i == j)
+                output[i][j] = rand()%MODULO_LATTICE;
+            else
+                output[i][j] = rand()%(MODULO_LATTICE/100);
 }//end create_lattice()
 
 void public_generation(int nbr_vectors, int vector_size, double private_lattice[nbr_vectors][vector_size], double public_lattice[nbr_vectors][vector_size]){
@@ -30,31 +33,4 @@ void public_generation(int nbr_vectors, int vector_size, double private_lattice[
         for(k = 0; k < vector_size; k++)
             public_lattice[i][k] = modd(public_lattice[i][k]+1, MODULO_LATTICE);
     }
-}
-
-/**
- * @brief
- * @param message
- */
-void decoding(int vector_size, double message[vector_size]){
-    int i;
-    for(i = 0; i < vector_size; i++) {
-        if (message[i]<16 || message[i]>=48)
-            message[i] = 1;
-        else
-            message[i] = 0;
-    }
-}
-
-/**
- * @brief
- * @param message
- */
-void noise_maker(int vector_size, double message[vector_size]){
-    int i;
-    for(i = 0; i < vector_size; i++) {
-        message[i] += (rand() % 3) - 1;
-        message[i] = modd(message[i]+0.5, MODULO_LATTICE);
-    }
-
 }
