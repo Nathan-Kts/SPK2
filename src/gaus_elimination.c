@@ -30,7 +30,7 @@ void gauss_elimination(int m, int n, double input[m][n]){
             }
         }
     }
-    for(i=0;i<m;i++)
+    /*for(i=0;i<m;i++)
         for(j=0;j<n;j++)
-            input[i][j] = modd(input[i][j], MODULO_LATTICE);
+            input[i][j] = modd(input[i][j], MODULO_LATTICE);*/
 }
