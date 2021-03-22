@@ -2,6 +2,7 @@
 #include "compute_intersection.h"
 #include "math_functions.h"
 #include "gaus_elimination.h"
+#include "print_functions.h"
 
 /**
  * @brief Computes the dual of a specified lattice and writes it in output
@@ -18,23 +19,26 @@ void dual(int nbr_vectors, int vector_size, double input[nbr_vectors][vector_siz
         printf("Matrices not square for dual !");
     }
 
-    /*printf("Entry : \n");
-    print_matrix(nbr_vectors, vector_size, input);*/
+    printf("Entry (B): \n");
+    print_matrix(nbr_vectors, vector_size, input);
 
-    product_matrix_prime_matrix(nbr_vectors, vector_size, input, input, output);
+    product_matrix_prime_matrix(nbr_vectors, vector_size, input, input, output); //TODO Again ...
 
-    /*printf("product 1 : \n");
-    print_matrix(nbr_vectors, vector_size, output);*/
+    printf("product B'*B : \n");
+    print_matrix(nbr_vectors, vector_size, output);
 
-    inversion_matrix(vector_size, output, temp);
+    inversion_matrix(vector_size, output, temp); //TODO PARt of the problem
 
-    /*printf("Inversion : \n");
-    print_matrix(nbr_vectors, vector_size, temp);*/
+    printf("Inversion ((B'*B)^-1) : \n");
+    print_matrix(nbr_vectors, vector_size, temp);
 
-    product_matrix_matrix(nbr_vectors, vector_size, input, temp, output);
+    printf("Entry (B): \n");
+    print_matrix(nbr_vectors, vector_size, input);
 
-    /*printf("Final matrix product : \n");
-    print_matrix(nbr_vectors, vector_size, output);*/
+    product_matrix_matrix(nbr_vectors, vector_size, input, temp, output); //TODO Part also
+
+    printf("Final matrix product (B*(B'*B)^-1): \n");
+    print_matrix(nbr_vectors, vector_size, output);
 }
 
 /**
@@ -72,20 +76,24 @@ void get_half_of_matrix(int nbr_vectors, int vector_size, double input[2*nbr_vec
  * @param output output lattice
  */
 void intersection_lattice(int nbr_vectors, int vector_size, double lattice1[nbr_vectors][vector_size], double lattice2[nbr_vectors][vector_size], double output[nbr_vectors][vector_size]) {
+    //print_vector(3, lattice1);
     double dual_lattice1[nbr_vectors][vector_size], dual_lattice2[nbr_vectors][vector_size];
     double temp[2*nbr_vectors][vector_size];
+
     dual(nbr_vectors, vector_size, lattice1, dual_lattice1);
     dual(nbr_vectors, vector_size, lattice2, dual_lattice2);
     concatenate(nbr_vectors, vector_size, dual_lattice1, dual_lattice2, temp);
 
-    /*printf("Concatenation of duals : \n");
-    print_matrix(2*VECTOR_SIZE, VECTOR_SIZE, temp);*/
+    printf("Concatenation of duals : \n");
+    print_matrix(2*nbr_vectors, vector_size, temp);
 
     gauss_elimination(2*nbr_vectors, vector_size, temp);
 
     get_half_of_matrix(nbr_vectors, vector_size, temp, dual_lattice1);
 
-    /*printf("half of it: \n");
-    print_matrix(VECTOR_SIZE, VECTOR_SIZE, dual_lattice1);*/
+
+    printf("half of it: \n");
+    print_matrix(nbr_vectors, vector_size, dual_lattice1);
+    //dual(nbr_vectors, vector_size, dual_lattice1, output);
     dual(nbr_vectors, vector_size, dual_lattice1, output);
 }
