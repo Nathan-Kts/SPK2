@@ -22,6 +22,7 @@ void public_generation(int nbr_vectors, int vector_size, double private_lattice[
     for(i = 0; i < nbr_vectors; i++)
         for(j = 0; j < vector_size; j++)
             public_lattice[i][j] = 0;
+
     for(i = 0; i < nbr_vectors; i++){
         for(j = i; j < nbr_vectors; j++) {
             multiplier = (rand() % 5)+1;

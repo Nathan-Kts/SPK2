@@ -2,6 +2,7 @@
 #include "doctest.h"
 
 #include "../src/math_functions.c"
+#include "compute_intersection.h"
 
 TEST_CASE("mod") {
     SUBCASE("modulo_positive_correct") {
@@ -46,7 +47,20 @@ TEST_CASE("round"){
     int vector_size = 4;
     double input[4][4] = {{23, 29, -4, 34}, {2, 654, 5, -453}, {23, 29, -4, 34}, {2, 654, 5, -453}};
     double output[4][4];
-    double should_be[4][4] = {{1066, 3950, -164, -248},{3950, 857114, 6308, -590552},{-164, 6308, 82, -4802},{-248, -590552, -4802, 412730}};
     product_matrix_prime_matrix(nbr_vectors, vector_size, input, input, output);
+    double should_be[4][4] = {{1066, 3950, -164, -248},{3950, 857114, 6308, -590552},{-164, 6308, 82, -4802},{-248, -590552, -4802, 412730}};
     CHECK(output == should_be);
 }*/
+
+
+TEST_CASE("intersection"){
+    int nbr_vectors = 4;
+    int vector_size = 4;
+    double input[4][4] = {{23, 29, -4, 34}, {2, 654, 5, -453}, {23, 29, -4, 34}, {2, 654, 5, -453}};
+    double input2[4][4] = {{23, 29, -4, 34}, {2, 654, 5, -453}, {23, 29, -4, 34}, {2, 654, 5, -453}};
+    double output[4][4];
+
+    intersection_lattice(nbr_vectors, vector_size, input, input2, output);
+    double should_be[4][4] = {{1066, 3950, -164, -248},{3950, 857114, 6308, -590552},{-164, 6308, 82, -4802},{-248, -590552, -4802, 412730}};
+    CHECK(output == should_be);
+}

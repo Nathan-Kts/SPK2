@@ -6,7 +6,7 @@ void sensor(int nbr_vectors, int vector_size, double received_public_lattice[nbr
 
     //public_to_new_private(nbr_vectors, vector_size, received_public_lattice, new_private_lattice);
     //public_to_new_private_copy_half(nbr_vectors, vector_size, received_public_lattice, new_private_lattice);
-    public_to_new_private_random_change(nbr_vectors, vector_size, received_public_lattice, new_private_lattice);
+    //public_to_new_private_random_change(nbr_vectors, vector_size, received_public_lattice, new_private_lattice);
 
 
     //printf("New private matrix : \n");

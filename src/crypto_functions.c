@@ -4,8 +4,13 @@
 
 void decode(int nbr_vectors, int vector_size, double private_lattice[nbr_vectors][vector_size], double message[vector_size], double decode[vector_size]){
     product_matrix_vector(nbr_vectors, vector_size, private_lattice, message, decode);
-    //printf("Message decoded by 1 : \n");
-    //print_vector(vector_size, decode);
+
+    printf("Message decoded by 1 : \n");
+    for (int i = 0; i < vector_size; ++i) {
+        decode[i] = modd(decode[i], MODULO_LATTICE);
+    }
+    print_vector(vector_size, decode);
+
     decoding(vector_size, decode);
     print_vector(vector_size, decode);
 }
@@ -31,7 +36,7 @@ void decoding(int vector_size, double message[vector_size]){
 void noise_maker(int vector_size, double message[vector_size]){
     int i;
     for(i = 0; i < vector_size; i++) {
-        message[i] += (rand() % 100) - 1;
+        message[i] += (rand() % 10) - 5;
         message[i] = modd(message[i]+0.5, MODULO_LATTICE);
     }
 
