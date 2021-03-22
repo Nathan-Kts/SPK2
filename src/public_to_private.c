@@ -1,5 +1,17 @@
 #include "public_to_private.h"
 
+void public_to_new_private_alwen_peikert(int nbr_vectors, int vector_size, double received_public_lattice[nbr_vectors][vector_size], double new_private_lattice[nbr_vectors][vector_size], double new_public_lattice[nbr_vectors][vector_size]){
+    double old_base[(int) (nbr_vectors / 2)][vector_size];
+    for (int i = 0; i < (int) (nbr_vectors/2); ++i) {
+        for (int j = 0; j < vector_size; ++j) {
+            old_base[i][j] = received_public_lattice[i][j];
+        }
+    }
+
+
+
+}
+
 /**
  * @brief
  * @param public_lattice
@@ -42,3 +54,4 @@ void public_to_new_private_random_change(int nbr_vectors, int vector_size, doubl
             private_lattice_2[vector][j] = public_lattice[vector][j];
     }
 }
+
