@@ -1,15 +1,33 @@
 #include "public_to_private.h"
+#include "lattice_functions.h"
+#include "quality.h"
 
-void public_to_new_private_alwen_peikert(int nbr_vectors, int vector_size, double received_public_lattice[nbr_vectors][vector_size], double new_private_lattice[nbr_vectors][vector_size], double new_public_lattice[nbr_vectors][vector_size]){
-    double old_base[(int) (nbr_vectors / 2)][vector_size];
-    for (int i = 0; i < (int) (nbr_vectors/2); ++i) {
-        for (int j = 0; j < vector_size; ++j) {
-            old_base[i][j] = received_public_lattice[i][j];
-        }
+void public_to_new_private_best_idea(int nbr_vectors, int vector_size, double received_public_lattice[nbr_vectors][vector_size], double new_private_lattice[nbr_vectors][vector_size], double new_public_lattice[nbr_vectors][vector_size]){
+    //create a random lattice
+    create_random_lattice(nbr_vectors, vector_size, new_private_lattice);
+    //double old_base[(int) (nbr_vectors / 2)][vector_size];
+
+    printf("Length of private lattice random : %f - %f\n", gram_schimdt_norm(NBR_VECTORS, VECTOR_SIZE, new_private_lattice, new_public_lattice), max_norm(NBR_VECTORS, VECTOR_SIZE, new_private_lattice));
+
+    for(int i = 0; i < 3; i++){
+        int vector = rand()%vector_size;
+        for(int j = 0; j < vector_size; j++)
+            new_private_lattice[vector][j] = received_public_lattice[vector][j];
     }
 
 
+    printf("Length of private lattice random with points : %f - %f\n", gram_schimdt_norm(NBR_VECTORS, VECTOR_SIZE, new_private_lattice, new_public_lattice), max_norm(NBR_VECTORS, VECTOR_SIZE, new_private_lattice));
 
+
+    double final[nbr_vectors][vector_size];
+    gram_schimdt_norm(nbr_vectors, vector_size, new_private_lattice, final);
+
+    public_generation(nbr_vectors, vector_size, final, new_public_lattice);
+
+    for(int i = 0; i < nbr_vectors; i++){
+        for(int j = 0; j < vector_size; j++)
+            new_private_lattice[i][j] = final[i][j];
+    }
 }
 
 /**
@@ -53,5 +71,25 @@ void public_to_new_private_random_change(int nbr_vectors, int vector_size, doubl
         for(j = 0; j < vector_size; j++)
             private_lattice_2[vector][j] = public_lattice[vector][j];
     }
+}
+
+void public_to_new_private_one_vector(int nbr_vectors, int vector_size, double received_public_lattice[nbr_vectors][vector_size], double new_private_lattice[nbr_vectors][vector_size], double new_public_lattice[nbr_vectors][vector_size]){
+    int i, j;
+    for(i = 0; i < nbr_vectors; i++){
+        for(j = 0; j < vector_size; j++){
+            new_private_lattice[i][j] = 0;
+        }
+    }
+
+    int vector = rand()%vector_size;
+    for(j = 0; j < vector_size; j++){
+            new_private_lattice[j][j] = received_public_lattice[vector][j];
+    }
+
+
+    printf("Length of private lattice : %f - %f\n", gram_schimdt_norm(NBR_VECTORS, VECTOR_SIZE, new_private_lattice, new_public_lattice), max_norm(NBR_VECTORS, VECTOR_SIZE, new_private_lattice));
+
+
+    public_generation(nbr_vectors, vector_size, new_private_lattice, new_public_lattice);
 }
 

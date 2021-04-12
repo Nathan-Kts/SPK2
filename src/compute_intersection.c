@@ -4,6 +4,8 @@
 #include "gaus_elimination.h"
 #include "print_functions.h"
 
+//#define PRINT
+
 /**
  * @brief Computes the dual of a specified lattice and writes it in output
  * @warning Matrix has to be squared
@@ -19,26 +21,34 @@ void dual(int nbr_vectors, int vector_size, double input[nbr_vectors][vector_siz
         printf("Matrices not square for dual !");
     }
 
+#if defined(PRINT)
     printf("Entry (B): \n");
     print_matrix(nbr_vectors, vector_size, input);
+#endif
 
-    product_matrix_prime_matrix(nbr_vectors, vector_size, input, input, output); //TODO Again ...
+    product_matrix_prime_matrix(nbr_vectors, vector_size, input, input, output);
 
+#if defined(PRINT)
     printf("product B'*B : \n");
     print_matrix(nbr_vectors, vector_size, output);
+#endif
 
-    inversion_matrix(vector_size, output, temp); //TODO PARt of the problem
+    inversion_matrix(vector_size, output, temp);
 
+#if defined(PRINT)
     printf("Inversion ((B'*B)^-1) : \n");
     print_matrix(nbr_vectors, vector_size, temp);
 
     printf("Entry (B): \n");
     print_matrix(nbr_vectors, vector_size, input);
+#endif
 
-    product_matrix_matrix(nbr_vectors, vector_size, input, temp, output); //TODO Part also
+    product_matrix_matrix(nbr_vectors, vector_size, input, temp, output);
 
+#if defined(PRINT)
     printf("Final matrix product (B*(B'*B)^-1): \n");
     print_matrix(nbr_vectors, vector_size, output);
+#endif
 }
 
 /**
@@ -84,16 +94,24 @@ void intersection_lattice(int nbr_vectors, int vector_size, double lattice1[nbr_
     dual(nbr_vectors, vector_size, lattice2, dual_lattice2);
     concatenate(nbr_vectors, vector_size, dual_lattice1, dual_lattice2, temp);
 
+#if defined(PRINT)
     printf("Concatenation of duals : \n");
     print_matrix(2*nbr_vectors, vector_size, temp);
+#endif
 
     gauss_elimination(2*nbr_vectors, vector_size, temp);
 
+#if defined(PRINT)
+    printf("Gauss elimination: \n");
+    print_matrix(2*nbr_vectors, vector_size, temp);
+#endif
+
     get_half_of_matrix(nbr_vectors, vector_size, temp, dual_lattice1);
 
-
+#if defined(PRINT)
     printf("half of it: \n");
     print_matrix(nbr_vectors, vector_size, dual_lattice1);
-    //dual(nbr_vectors, vector_size, dual_lattice1, output);
+#endif
+
     dual(nbr_vectors, vector_size, dual_lattice1, output);
 }

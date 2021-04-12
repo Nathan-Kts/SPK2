@@ -36,7 +36,7 @@ void decoding(int vector_size, double message[vector_size]){
 void noise_maker(int vector_size, double message[vector_size]){
     int i;
     for(i = 0; i < vector_size; i++) {
-        message[i] += (rand() % 10) - 5;
+        message[i] += (rand() % 4) - 2;
         message[i] = modd(message[i]+0.5, MODULO_LATTICE);
     }
 

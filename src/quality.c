@@ -4,21 +4,31 @@
 
 #include "quality.h"
 
-double max_norm(int nbr_vectors, int vector_size, double **input){
+double max_norm(int nbr_vectors, int vector_size, double input[nbr_vectors][vector_size]){
     double max_length = 0;
-    int temp = 0;
+    double temp = 0;
     for (int i = 0; i < nbr_vectors; ++i) {
         for (int j = 0; j < vector_size; ++j) {
-            temp += abs(input[i][j]*input[i][j]);
+            temp += input[i][j]*input[i][j];
         }
         if(temp > max_length)
             max_length = temp;
-        temp = 0;
+        temp = 0.0;
     }
     return sqrt(max_length);
 }
 
-void gram_schimdt_modif(int nbr_vectors, int vector_size, double A[nbr_vectors][vector_size], double Q[nbr_vectors][vector_size]) {
+double total_norm(int nbr_vectors, int vector_size, double input[nbr_vectors][vector_size]){
+    double total_length = 0;
+    for (int i = 0; i < nbr_vectors; ++i) {
+        for (int j = 0; j < vector_size; ++j) {
+            total_length += input[i][j]*input[i][j];
+        }
+    }
+    return sqrt(total_length);
+}
+
+double gram_schimdt_norm(int nbr_vectors, int vector_size, double A[nbr_vectors][vector_size], double Q[nbr_vectors][vector_size]) {
     int i, j, k;
     double A0[nbr_vectors][vector_size];
     double temp;
@@ -53,4 +63,5 @@ void gram_schimdt_modif(int nbr_vectors, int vector_size, double A[nbr_vectors][
             Q[i][j] = A0[i][j];
         }
     }
+    return max_norm(nbr_vectors, vector_size, Q);
 }

@@ -31,7 +31,7 @@ long mod(long a, int b){
  * @return The modulus rounded to the nearest integer
  */
 double modd(double a, int b){
-    if(a >= -1) //TODO to adjust with time
+    if(a >= -0.01) //TODO to adjust with time
         return (double) ((int) (a+0.5) % b);
     else
         return (double) ((int) (a-0.5) % b) + b;

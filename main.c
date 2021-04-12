@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <time.h>
+//#include <time.h>
 #include <crypto_functions.h>
 #include <sensor.h>
 #include <gateway.h>
@@ -19,7 +19,7 @@
 int main()
 {
 
-    double test_1[3][3], test_2[3][3];
+    /*double test_1[3][3], test_2[3][3];
     double intersection[3][3];
 
     test_1[0][0] = 67;
@@ -31,7 +31,7 @@ int main()
     test_1[2][0] = -152;
     test_1[2][1] = 66;
     test_1[2][2] = 159;
-    /*test_1[0][0] = 1; //Works in the case of a identity matrix
+    test_1[0][0] = 1; //Works in the case of a identity matrix
     test_1[0][1] = 0;
     test_1[0][2] = 0;
     test_1[1][0] = 0;
@@ -39,7 +39,7 @@ int main()
     test_1[1][2] = 0;
     test_1[2][0] = 0;
     test_1[2][1] = 0;
-    test_1[2][2] = 1;*/
+    test_1[2][2] = 1;
     for (int i = 0; i < 3; ++i) {
         for (int j = 0; j < 3; ++j) {
             //test_1[i][j] = rand()%10+1;
@@ -47,12 +47,13 @@ int main()
             intersection[i][j] = 0;
         }
     }
-    /*printf("input\n");
+    printf("input\n");
     print_matrix(3, 3, test_1);
     inversion_matrix(3, test_1, intersection);
     printf("inverse\n");
-    print_matrix(3, 3, intersection);*/
-    /*printf("input\n");
+    print_matrix(3, 3, intersection);
+
+    printf("input\n");
     print_matrix(3, 3, test_1);
     intersection_lattice(3, 3, test_1, test_2, intersection);
     printf("output\n");
@@ -70,11 +71,11 @@ int main()
     double private_lattice_g[NBR_VECTORS][VECTOR_SIZE], public_lattice_g[NBR_VECTORS][VECTOR_SIZE];
     gateway(NBR_VECTORS, VECTOR_SIZE, private_lattice_g, public_lattice_g);
 
-    //double test[NBR_VECTORS][VECTOR_SIZE];
+    /*double test[NBR_VECTORS][VECTOR_SIZE];
     //gram_schimdt_modif(NBR_VECTORS, VECTOR_SIZE, public_lattice_g, test);
     //print_matrix(NBR_VECTORS, VECTOR_SIZE, test);
 
-    /*double lc = 1/4;
+    double lc = 1/4;
     double hc = 3/4;
     double temp2[VECTOR_SIZE*NBR_VECTORS];
 
@@ -82,19 +83,19 @@ int main()
         for (int j = 0; j < VECTOR_SIZE; ++j) {
             temp2[VECTOR_SIZE*i+j] = private_lattice_g[i][j];
         }
-    }*/
+    }
 
-    //lll_reduce(temp2, VECTOR_SIZE, lc, hc);
+    //lll_reduce(temp2, VECTOR_SIZE, lc, hc);*/
 
     //Sensor 1 and 2
     double intersection_1[NBR_VECTORS][VECTOR_SIZE], intersection_2[NBR_VECTORS][VECTOR_SIZE];
-    double private_lattice_1[NBR_VECTORS][VECTOR_SIZE], private_lattice_2[NBR_VECTORS][VECTOR_SIZE];
+    double private_lattice_1[NBR_VECTORS][VECTOR_SIZE];//, private_lattice_2[NBR_VECTORS][VECTOR_SIZE];
 
-    sensor(NBR_VECTORS, VECTOR_SIZE, public_lattice_g, private_lattice_1, intersection_1);
-    sensor(NBR_VECTORS, VECTOR_SIZE, intersection_1, private_lattice_2, intersection_2);
+    sensor(NBR_VECTORS, VECTOR_SIZE, public_lattice_g, private_lattice_1, intersection_1); //TODO Normally public not private
+    //sensor(NBR_VECTORS, VECTOR_SIZE, intersection_1, private_lattice_2, intersection_2);
 
-    printf("Final intersection: \n");
-    print_matrix(NBR_VECTORS, VECTOR_SIZE, intersection_2);
+    printf("Final intersection used to encrypt : \n");
+    print_matrix(NBR_VECTORS, VECTOR_SIZE, intersection_1);
 
 #if defined(TEST)
     int total = 0;
@@ -119,17 +120,17 @@ int main()
     print_vector(VECTOR_SIZE, secret);
 
     //print_matrix(NBR_VECTORS, VECTOR_SIZE, intersection_2);
-    product_matrix_vector(NBR_VECTORS, VECTOR_SIZE, intersection_2, secret, message);
+    product_matrix_vector(NBR_VECTORS, VECTOR_SIZE, intersection_1, secret, message);
     noise_maker(VECTOR_SIZE, message);
     printf("Broadcast Message : \n");
     print_vector(VECTOR_SIZE, message);
 
 
     //Decode
-    double decode_0[VECTOR_SIZE], decode_1[VECTOR_SIZE], decode_2[VECTOR_SIZE];
+    double decode_0[VECTOR_SIZE], decode_1[VECTOR_SIZE];//, decode_2[VECTOR_SIZE];
     decode(NBR_VECTORS, VECTOR_SIZE, private_lattice_g, message, decode_0);
     decode(NBR_VECTORS, VECTOR_SIZE, private_lattice_1, message, decode_1);
-    decode(NBR_VECTORS, VECTOR_SIZE, private_lattice_2, message, decode_2);
+    //decode(NBR_VECTORS, VECTOR_SIZE, private_lattice_2, message, decode_2);
 
     int j = 0;
     for (i = 0; i < VECTOR_SIZE; ++i) {
@@ -138,10 +139,26 @@ int main()
     }
     printf("Number of good decryption : %d/%d\n", j, VECTOR_SIZE);
 
+
+    printf("Private g\n");
+    print_matrix(NBR_VECTORS, VECTOR_SIZE, private_lattice_g);
+    printf("Public g\n");
+    print_matrix(NBR_VECTORS, VECTOR_SIZE, public_lattice_g);
+    printf("Private 1\n");
+    print_matrix(NBR_VECTORS, VECTOR_SIZE, private_lattice_1);
+    printf("Public 1\n");
+    print_matrix(NBR_VECTORS, VECTOR_SIZE, intersection_1);
+
+
+
+    printf("Length of private lattice g : %f - %f and the public : %f - %f\n", gram_schimdt_norm(NBR_VECTORS, VECTOR_SIZE, private_lattice_g, intersection_2), max_norm(NBR_VECTORS, VECTOR_SIZE, private_lattice_g), gram_schimdt_norm(NBR_VECTORS, VECTOR_SIZE, public_lattice_g, intersection_2), max_norm(NBR_VECTORS, VECTOR_SIZE, public_lattice_g));
+    printf("Length of private lattice 1 : %f - %f and the public : %f - %f\n", gram_schimdt_norm(NBR_VECTORS, VECTOR_SIZE, private_lattice_1, intersection_2), max_norm(NBR_VECTORS, VECTOR_SIZE, private_lattice_1), gram_schimdt_norm(NBR_VECTORS, VECTOR_SIZE, intersection_1, intersection_2), max_norm(NBR_VECTORS, VECTOR_SIZE, intersection_1));
+    //printf("Length of private lattice 2 : %f - %f and the public : %f - %f\n", gram_schimdt_norm(NBR_VECTORS, VECTOR_SIZE, private_lattice_2, intersection_2), max_norm(NBR_VECTORS, VECTOR_SIZE, private_lattice_2), gram_schimdt_norm(NBR_VECTORS, VECTOR_SIZE, intersection_2, intersection_2), max_norm(NBR_VECTORS, VECTOR_SIZE, intersection_2));
+
 #if defined(TEST)
     total+=j;
     }
     printf("Number of good decryption in total : %d/%d\n", total, VECTOR_SIZE*NBR_TEST);
 #endif
-    
+
 }//end main()

@@ -3,7 +3,7 @@
 #define NBR_VECTORS 10
 #define VECTOR_SIZE 10
 #define DATA_PER_PACKET 38
-#define MODULO_LATTICE 12289//12289 //Max 2^16-1 = 65.535
+#define MODULO_LATTICE 13//12289 //Max 2^16-1 = 65.535
 #define N_inv 12265
 
 #define UDP_CLIENT_PORT	8765
