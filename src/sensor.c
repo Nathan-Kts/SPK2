@@ -25,9 +25,9 @@ void sensor(int nbr_vectors, int vector_size, double received_public_lattice[nbr
     //TODO maybe leave it uncommented
     // gauss_elimination(nbr_vectors, vector_size, intersection);
 
-    for(int i=0;i<nbr_vectors;i++)
-        for(int j=0;j<vector_size;j++)
-            intersection[i][j] = modd(intersection[i][j], MODULO_LATTICE);
+    //TODO for(int i=0;i<nbr_vectors;i++)
+    //    for(int j=0;j<vector_size;j++)
+    //        intersection[i][j] = modd(intersection[i][j], MODULO_LATTICE);
 
     //printf("Intersection matrix : \n");
     //print_matrix(nbr_vectors, vector_size, intersection);

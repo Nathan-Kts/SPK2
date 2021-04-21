@@ -18,6 +18,64 @@
 
 int main()
 {
+
+    /*double test_1[3][3], test_2[3][3];
+    double intersection[3][3];
+
+    test_1[0][0] = 67;
+    test_1[0][1] = -26;
+    test_1[0][2] = -71;
+    test_1[1][0] = 65;
+    test_1[1][1] = -30;
+    test_1[1][2] = -66;
+    test_1[2][0] = -152;
+    test_1[2][1] = 66;
+    test_1[2][2] = 159;
+    test_1[0][0] = 1; //Works in the case of a identity matrix
+    test_1[0][1] = 0;
+    test_1[0][2] = 0;
+    test_1[1][0] = 0;
+    test_1[1][1] = 1;
+    test_1[1][2] = 0;
+    test_1[2][0] = 0;
+    test_1[2][1] = 0;
+    test_1[2][2] = 1;
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            //test_1[i][j] = rand()%10+1;
+            test_2[i][j] = test_1[i][j];
+            intersection[i][j] = 0;
+        }
+    }
+    printf("input\n");
+    print_matrix(3, 3, test_1);
+    inversion_matrix(3, test_1, intersection);
+    printf("inverse\n");
+    print_matrix(3, 3, intersection);
+
+    printf("input\n");
+    print_matrix(3, 3, test_1);
+    intersection_lattice(3, 3, test_1, test_2, intersection);
+    printf("output\n");
+    print_matrix(3, 3, test_1);
+    printf("output 2:\n");
+    for(int i=0; i<3; i++){
+        for(int j=0; j<3; j++)
+            printf("%10.2f", intersection[i][j]);
+        printf("\n");
+    }
+    printf("end 2:\n");
+
+    //Test of gramschid
+    double A[2][2], Q[2][2];
+    A[0][0] = 1;
+    A[0][1] = 0;
+    A[1][0] = 5;
+    A[1][1] = 3;
+    print_matrix(2, 2, A);
+    gram_schimdt(2, A);
+    print_matrix(2, 2, A);*/
+
     //Gateway
     double private_lattice_g[NBR_VECTORS][VECTOR_SIZE], public_lattice_g[NBR_VECTORS][VECTOR_SIZE];
     gateway(NBR_VECTORS, VECTOR_SIZE, private_lattice_g, public_lattice_g);
@@ -102,9 +160,9 @@ int main()
     printf("Number of good decryption : %d/%d\n", j, VECTOR_SIZE);
 
 
-    double temp[NBR_VECTORS][VECTOR_SIZE];
-    printf("Length of private lattice g : %f and the public : %f\n", gs_norm(NBR_VECTORS, VECTOR_SIZE, private_lattice_g, temp), gs_norm(NBR_VECTORS, VECTOR_SIZE, public_lattice_g, temp));
-    printf("Length of private lattice 1 : %f and the public : %f\n", gs_norm(NBR_VECTORS, VECTOR_SIZE, private_lattice_1, temp), gs_norm(NBR_VECTORS, VECTOR_SIZE, intersection_1, temp));
+
+    printf("Length of private lattice g : %f - %f and the public : %f - %f\n", gram_schimdt_norm(NBR_VECTORS, VECTOR_SIZE, private_lattice_g, intersection_2), max_norm(NBR_VECTORS, VECTOR_SIZE, private_lattice_g), gram_schimdt_norm(NBR_VECTORS, VECTOR_SIZE, public_lattice_g, intersection_2), max_norm(NBR_VECTORS, VECTOR_SIZE, public_lattice_g));
+    printf("Length of private lattice 1 : %f - %f and the public : %f - %f\n", gram_schimdt_norm(NBR_VECTORS, VECTOR_SIZE, private_lattice_1, intersection_2), max_norm(NBR_VECTORS, VECTOR_SIZE, private_lattice_1), gram_schimdt_norm(NBR_VECTORS, VECTOR_SIZE, intersection_1, intersection_2), max_norm(NBR_VECTORS, VECTOR_SIZE, intersection_1));
     //printf("Length of private lattice 2 : %f - %f and the public : %f - %f\n", gram_schimdt_norm(NBR_VECTORS, VECTOR_SIZE, private_lattice_2, intersection_2), max_norm(NBR_VECTORS, VECTOR_SIZE, private_lattice_2), gram_schimdt_norm(NBR_VECTORS, VECTOR_SIZE, intersection_2, intersection_2), max_norm(NBR_VECTORS, VECTOR_SIZE, intersection_2));
 
 #if defined(TEST)

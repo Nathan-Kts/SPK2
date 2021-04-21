@@ -19,5 +19,6 @@ void product_matrix_prime_matrix(int nbr_vectors, int vector_size, double matrix
 void product_matrix_matrix(int nbr_vectors, int vector_size, double matrix_1[nbr_vectors][vector_size], double matrix_2[nbr_vectors][vector_size], double output[nbr_vectors][vector_size]);
 void product_matrix_vector(int nbr_vectors, int vector_size, double matrix[nbr_vectors][vector_size], double vector[vector_size], double output[vector_size]);
 void inversion_matrix(int vector_size, double matrix[vector_size][vector_size], double output[vector_size][vector_size]);
+void gram_schimdt(int vector_size, double q[vector_size][vector_size]);
 
 #endif //TFE_KEM_MATH_FUNCTIONS_H

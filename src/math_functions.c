@@ -97,7 +97,7 @@ double product_vector_vector(int nbr_vectors, int vector_size, double vector_1[n
     int i;
     double output = 0;
     for(i = 0; i < size; i++)
-        output += vector_1[i][line_1] * vector_2[i][line_2];
+        output += vector_1[line_1][i] * vector_2[line_2][i];
     return output;
 }
 
@@ -207,3 +207,72 @@ void inversion_matrix(int vector_size, double matrix[vector_size][vector_size], 
         }
     }
 }
+
+
+double dot_product(int nbr_vectors, int vector_size, double vector_1[nbr_vectors][vector_size], int line_1, double vector_2[nbr_vectors][vector_size], int line_2, int size){
+    int i;
+    double output = 0;
+    for(i = 0; i < size; i++)
+        output += vector_1[line_1][i] * vector_2[line_2][i];
+    return output;
+}
+
+/* Find an orthonormal basis for the set of vectors q
+ * using the Gram-Schmidt Orthogonalization process */
+void gram_schimdt(int vector_size, double q[vector_size][vector_size]) {
+    int i, j, k;
+
+    for(i=1; i<vector_size; ++i) {
+        for(j=0; j<i; ++j) {
+            double scaling_factor = dot_product(vector_size, vector_size, q, j, q, i, vector_size) / dot_product(vector_size, vector_size, q, j, q, j, vector_size);
+            //printf('%20.6f', scaling_factor);
+            /* Subtract each scaled component of q_j from q_i */
+            for(k=0; k<vector_size; ++k)
+                q[i][k] -= scaling_factor*q[j][k];
+        }
+    }
+}
+
+/*int main() {
+
+//Subspace in R4
+    double arr[][4] = {
+            { 1, 2, 3, 0},
+            {1, 2, 0, 0},
+            {1, 0, 0, 1}
+    };
+
+    gram_schimdt(arr, 3);
+    printf("Orthonormal basis :\n");
+
+    for(int i=0; i<3; ++i) {
+        printf("q[%d] = [ ", i);
+        for(int j=0; j<4; ++j)
+            printf("%lf  ", arr[i][j]);
+        printf("]\n");
+    }
+}*/
+
+/*void gram_schmid(int vector_size, double matrix[vector_size][vector_size]) {
+
+    for(int i = 0; i < vector_size; i++) {
+        // v(:,ii) = v(:,ii) / norm(v(:,ii));
+        for (int j = i + 1; j < i + vector_size; j++) {
+            for (int k = 0; k < vector_size; ++k) {
+                matrix(k,j) = matrix(k,j) -proj(matrix(k,i),matrix(k,j));
+            }
+
+        }
+    }
+}
+
+ double dot_product(int vector_size, double x[vector_size], double y[vector_size]) {
+    int i;
+    double output = 0;
+
+    for(i=0; i<vector_size; i++)
+        output += x[i]*y[i];
+
+    return output;
+}
+ */
