@@ -27,7 +27,7 @@ int main()
     printf("Public g\n");
     print_matrix(NBR_VECTORS, VECTOR_SIZE, public_lattice_g);
 
-
+    /*
     //Sensor 1 and 2
     double intersection_1[NBR_VECTORS][VECTOR_SIZE], intersection_2[NBR_VECTORS][VECTOR_SIZE];
     double private_lattice_1[NBR_VECTORS][VECTOR_SIZE];//, private_lattice_2[NBR_VECTORS][VECTOR_SIZE];
@@ -35,8 +35,8 @@ int main()
     sensor(NBR_VECTORS, VECTOR_SIZE, public_lattice_g, private_lattice_1, intersection_1);
     //sensor(NBR_VECTORS, VECTOR_SIZE, intersection_1, private_lattice_2, intersection_2);
 
-    //printf("Final intersection used to encrypt : \n");
-    //print_matrix(NBR_VECTORS, VECTOR_SIZE, intersection_1);
+    printf("Final intersection used to encrypt : \n");
+    print_matrix(NBR_VECTORS, VECTOR_SIZE, intersection_1);*/
 
 #if defined(TEST)
     int total = 0;
@@ -44,10 +44,10 @@ int main()
         srand(count);
 #endif
 
-    printf("Private 1\n");
+    /*printf("Private 1\n");
     print_matrix(NBR_VECTORS, VECTOR_SIZE, private_lattice_1);
     printf("Public 1\n");
-    print_matrix(NBR_VECTORS, VECTOR_SIZE, intersection_1);
+    print_matrix(NBR_VECTORS, VECTOR_SIZE, intersection_1);*/
 
     int i;
     double secret[VECTOR_SIZE];
@@ -62,7 +62,7 @@ int main()
     printf("Secret Message : \n");
     print_vector(VECTOR_SIZE, secret);
 
-    product_matrix_vector(NBR_VECTORS, VECTOR_SIZE, intersection_1, secret, message);
+    product_matrix_vector(NBR_VECTORS, VECTOR_SIZE, public_lattice_g, secret, message);
     noise_maker(VECTOR_SIZE, message);
     printf("Broadcast Message : \n");
     print_vector(VECTOR_SIZE, message);
@@ -70,10 +70,7 @@ int main()
 
     //Decode
     double decode_0[VECTOR_SIZE], decode_1[VECTOR_SIZE];//, decode_2[VECTOR_SIZE];
-
-
     //nearest_plane(NBR_VECTORS, VECTOR_SIZE, private_lattice_g, message, decode_0);
-
     //decode(NBR_VECTORS, VECTOR_SIZE, private_lattice_1, message, decode_1);
     //decode(NBR_VECTORS, VECTOR_SIZE, private_lattice_2, message, decode_2);
 
@@ -95,11 +92,9 @@ int main()
         decode_0[N] = round(decode_0[N]);
     }
 
-    printf("received messages \n");
     print_vector(NBR_VECTORS, decode_0);
-    //printf("test\n");
-    //print_matrix(NBR_VECTORS, VECTOR_SIZE, output);
-
+    printf("test\n");
+    print_matrix(NBR_VECTORS, VECTOR_SIZE, output);
 
     int j = 0;
     for (i = 0; i < VECTOR_SIZE; ++i) {
@@ -108,43 +103,7 @@ int main()
         if (secret[i] == 0 && decode_0[i] <= 20)
             j++;
     }
-    //printf("Number of good decryption : %d/%d\n", j, VECTOR_SIZE);
-
-
-
-
-
-    inversion_matrix(NBR_VECTORS, private_lattice_1, output);
-    product_matrix_vector(NBR_VECTORS, VECTOR_SIZE, output, message, decode_0);
-    for (int N = 0; N < VECTOR_SIZE; ++N) {
-        decode_0[N] = round(decode_0[N]);
-    }
-    product_matrix_vector(NBR_VECTORS, VECTOR_SIZE, private_lattice_1, decode_0, decode_1);
-
-    inversion_matrix(NBR_VECTORS, intersection_1, output);
-    product_matrix_vector(NBR_VECTORS, VECTOR_SIZE, output, decode_1, decode_0);
-
-    for (int N = 0; N < VECTOR_SIZE; ++N) {
-        decode_0[N] = round(decode_0[N]);
-    }
-
-    printf("received messages \n");
-    print_vector(NBR_VECTORS, decode_0);
-    //printf("test\n");
-    //print_matrix(NBR_VECTORS, VECTOR_SIZE, output);
-
-
-
-
-
-
-    for (i = 0; i < VECTOR_SIZE; ++i) {
-        if (secret[i] == 50 && decode_0[i] >= 20)
-            j++;
-        if (secret[i] == 0 && decode_0[i] <= 20)
-            j++;
-    }
-    printf("Number of good decryption : %d/%d\n", j, 2*VECTOR_SIZE);
+    printf("Number of good decryption : %d/%d\n", j, VECTOR_SIZE);
 
 
     double temp[NBR_VECTORS][VECTOR_SIZE];

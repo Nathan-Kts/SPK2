@@ -11,7 +11,8 @@ void gateway(int nbr_vectors, int vector_size, double private_lattice[nbr_vector
     //printf("Private matrix : \n");
     //print_matrix(NBR_VECTORS, VECTOR_SIZE, private_lattice_1);
 
-    public_generation(nbr_vectors, vector_size, private_lattice, public_lattice);
+    double unimodular[nbr_vectors][vector_size];
+    public_generation(nbr_vectors, vector_size, private_lattice, public_lattice, unimodular);
     //TODO gauss_elimination(nbr_vectors, vector_size, public_lattice);
     //TODO for(int i=0;i<nbr_vectors;i++)
     //    for(int j=0;j<vector_size;j++)

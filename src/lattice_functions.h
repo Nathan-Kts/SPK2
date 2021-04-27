@@ -9,7 +9,7 @@
 #include "math_functions.h"
 
 void create_random_lattice(int n, int m, double output[n][m]);
-void public_generation(int nbr_vectors, int vector_size, double private_lattice[nbr_vectors][vector_size], double public_lattice[nbr_vectors][vector_size]);
+void public_generation(int nbr_vectors, int vector_size, double private_lattice[nbr_vectors][vector_size], double public_lattice[nbr_vectors][vector_size], double unimodular[nbr_vectors][vector_size]);
 void create_private_lattice(int nbr_vectors, int vector_size, double output[nbr_vectors][vector_size]);
 
 

@@ -1,6 +1,7 @@
 #include "sensor.h"
 #include "gaus_elimination.h"
 #include "public_to_private.h"
+#include "print_functions.h"
 
 void sensor(int nbr_vectors, int vector_size, double received_public_lattice[nbr_vectors][vector_size], double new_private_lattice[nbr_vectors][vector_size], double intersection[nbr_vectors][vector_size]){
     double new_public_lattice[nbr_vectors][vector_size];
@@ -13,8 +14,8 @@ void sensor(int nbr_vectors, int vector_size, double received_public_lattice[nbr
     public_to_new_private_best_idea(nbr_vectors, vector_size, received_public_lattice, new_private_lattice, new_public_lattice);
     //public_to_new_private_one_vector(nbr_vectors, vector_size, received_public_lattice, new_private_lattice, new_public_lattice);
 
-    //printf("New private matrix : \n");
-    //print_matrix(nbr_vectors, vector_size, new_private_lattice);
+    printf("New private matrix : \n");
+    print_matrix(nbr_vectors, vector_size, new_private_lattice);
 
     ////public_generation(nbr_vectors, vector_size, new_private_lattice, new_public_lattice);
     //printf("New public matrix : \n");

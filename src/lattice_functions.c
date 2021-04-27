@@ -38,7 +38,7 @@ void create_private_lattice(int nbr_vectors, int vector_size, double output[nbr_
             output[i][j] = (double) (int) output[i][j];
 }//end create_private_lattice()
 
-void public_generation(int nbr_vectors, int vector_size, double private_lattice[nbr_vectors][vector_size], double public_lattice[nbr_vectors][vector_size]){
+void public_generation(int nbr_vectors, int vector_size, double private_lattice[nbr_vectors][vector_size], double public_lattice[nbr_vectors][vector_size], double unimodular[nbr_vectors][vector_size]){
     /*int i, j, k, multiplier;
     for(i = 0; i < nbr_vectors; i++)
         for(j = 0; j < vector_size; j++)
@@ -47,8 +47,27 @@ void public_generation(int nbr_vectors, int vector_size, double private_lattice[
     for(k = 0; k < vector_size; k++)
         public_lattice[i][k] = modd(public_lattice[i][k]+1, MODULO_LATTICE);*/
 
+    for (int i = 0; i < vector_size; ++i) {
+        for (int j = 0; j < vector_size; ++j) {
+            if (i == j)
+                unimodular[i][j] = 1;
+            else if (i < j)
+                unimodular[i][j] = rand()%PRIVATE_LATTICE_LIMIT;
+            else if (j < i)
+                unimodular[i][j] = 0;
+        }
+    }
 
-    int i, j, k, multiplier;
+    product_matrix_matrix(nbr_vectors, vector_size, unimodular, private_lattice, public_lattice);
+
+    //for(int i = 0; i < nbr_vectors; i++)
+    //    for(int j = 0; j < vector_size; j++)
+    //        public_lattice[i][j] = private_lattice[i][j];
+    //gauss_elimination(nbr_vectors, vector_size, public_lattice);
+
+
+    int i, j, k;/*
+    double multiplier;
     // Initialize to 0 all elements of output lattice
     for(i = 0; i < nbr_vectors; i++)
         for(j = 0; j < vector_size; j++)
@@ -57,7 +76,8 @@ void public_generation(int nbr_vectors, int vector_size, double private_lattice[
     // take an vector and copies that on and the next ones from the input lattice mutliplied by an random integer
     for(i = 0; i < nbr_vectors; i++){
         for(j = i; j < nbr_vectors; j++) {
-            multiplier = (double) (int) (5 * rand()%5);
+            multiplier = rand() % 20;
+            printf("%f\n", multiplier);
             for(k = 0; k < vector_size; k++) {
                 public_lattice[i][k] += multiplier * private_lattice[j][k]; //multiplier *
                 //printf("%10.4f %d %10.4f %d %d %d\n", public_lattice[i][k], multiplier, private_lattice[j][k], i, j, k);
@@ -65,10 +85,13 @@ void public_generation(int nbr_vectors, int vector_size, double private_lattice[
         }
         //for(k = 0; k < vector_size; k++)
         //    public_lattice[i][k] = modd(public_lattice[i][k], MODULO_LATTICE);
-    }
+    }*/
+
+    //printf("dd\n");
+    //print_matrix(nbr_vectors, vector_size, public_lattice);
 
     //TODO Test if same lattice
-    /*double private_lattice_test[NBR_VECTORS][VECTOR_SIZE], public_lattice_test[NBR_VECTORS][VECTOR_SIZE];
+    double private_lattice_test[NBR_VECTORS][VECTOR_SIZE], public_lattice_test[NBR_VECTORS][VECTOR_SIZE];
     double output_private[NBR_VECTORS][VECTOR_SIZE], output_public[NBR_VECTORS][VECTOR_SIZE];
     for(i = 0; i < nbr_vectors; i++)
         for(j = 0; j < vector_size; j++)
@@ -84,7 +107,10 @@ void public_generation(int nbr_vectors, int vector_size, double private_lattice[
     float test_private = 1.0;
     for(i = 0; i < nbr_vectors; i++){
         test_private *= output_private[i][i];
+        //printf("%f et %f\n", test_private, output_private[i][i]);
         test_public *= output_public[i][i];
+        //printf("%f et %f\n", test_public, output_public[i][i]);
     }
-    printf("Nous avons %f et %f\n", test_private, test_public);*/
+    float trol = abs(test_public)/abs(test_private);
+    printf("The matrices have %f size and share %f%\n", test_private, trol);
 }

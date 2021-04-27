@@ -8,24 +8,31 @@ void public_to_new_private_best_idea(int nbr_vectors, int vector_size, double re
     //create_random_lattice(nbr_vectors, vector_size, new_private_lattice);
     create_private_lattice(nbr_vectors, vector_size, new_private_lattice);
     //double old_base[(int) (nbr_vectors / 2)][vector_size];
+
     printf("Length of private lattice random : %f - %f\n", gs_norm(NBR_VECTORS, VECTOR_SIZE, new_private_lattice, new_public_lattice), max_norm(NBR_VECTORS, VECTOR_SIZE, new_private_lattice));
 
-    for(int i = 0; i < 5; i++){
-        int vector = rand()%vector_size;
+
+
+    for(int i = 0; i < 1; i++){
+        int vector = 0; //rand()%vector_size;
         for(int j = 0; j < vector_size; j++)
             new_private_lattice[vector][j] = received_public_lattice[vector][j];
     }
 
+    printf("New private matrix : \n");
+    print_matrix(nbr_vectors, vector_size, new_private_lattice);
 
     //TODO write high level code and send and share with Michael
     // Write conferance paper
+
+
 
     gram_schimdt(nbr_vectors, new_private_lattice);
 
     printf("Length of private lattice random with points : %f - %f\n", gs_norm(NBR_VECTORS, VECTOR_SIZE, new_private_lattice, new_public_lattice), max_norm(NBR_VECTORS, VECTOR_SIZE, new_private_lattice));
 
-
-    public_generation(nbr_vectors, vector_size, new_private_lattice, new_public_lattice);
+    double unimodular[nbr_vectors][vector_size];
+    public_generation(nbr_vectors, vector_size, new_private_lattice, new_public_lattice, unimodular);
 }
 
 /**
@@ -87,7 +94,7 @@ void public_to_new_private_one_vector(int nbr_vectors, int vector_size, double r
 
     printf("Length of private lattice : %f - %f\n", gs_norm(NBR_VECTORS, VECTOR_SIZE, new_private_lattice, new_public_lattice), max_norm(NBR_VECTORS, VECTOR_SIZE, new_private_lattice));
 
-
-    public_generation(nbr_vectors, vector_size, new_private_lattice, new_public_lattice);
+    double unimodular[nbr_vectors][vector_size];
+    public_generation(nbr_vectors, vector_size, new_private_lattice, new_public_lattice, unimodular);
 }
 

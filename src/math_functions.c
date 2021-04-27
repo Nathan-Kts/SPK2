@@ -221,17 +221,61 @@ double dot_product(int nbr_vectors, int vector_size, double vector_1[nbr_vectors
  * using the Gram-Schmidt Orthogonalization process */
 void gram_schimdt(int vector_size, double q[vector_size][vector_size]) {
     int i, j, k;
+    double A0[vector_size][vector_size];
+    double Q[vector_size][vector_size];
+    double temp;
+
+    // Copy of vector and initialisation of output
+    for (i = 0; i < vector_size; i++){
+        for (j = 0; j < vector_size; j++) {
+            A0[i][j] = q[i][j];
+            Q[i][j] = 0;
+        }
+    }
+
+    for(i=0; i<vector_size; ++i) {
+        // Normalisation ok column i
+        double scaling_factor = 0;
+        for(j=0; j<vector_size; ++j)
+            scaling_factor += A0[j][i]*A0[j][i];
+        scaling_factor = sqrt(scaling_factor);
+        for(j=0; j<vector_size; ++j)
+            Q[j][i] = A0[j][i]/scaling_factor;
+
+        //Orthogonalization of all the other columns
+        for(k=i+1; k<vector_size; k++){
+            temp = product_vector_vector(vector_size, vector_size, A0, k, Q, i, vector_size);
+            //printf("%d\n", (int) (1000*temp));
+            for(j=0; j<vector_size; j++){
+                A0[j][k] = A0[j][k] - Q[j][i]*temp;
+            }
+        }
+    }
+    product_matrix_prime_matrix(vector_size, vector_size, Q, q, A0);
+
+
+
+    for (i = 0; i < vector_size; i++){
+        for (j = 0; j < vector_size; j++) {
+            q[i][j] = A0[i][j];
+        }
+    }
+
+
+    //return norm(vector_size, vector_size, Q);
+}
+    /*int i, j, k;
 
     for(i=1; i<vector_size; ++i) {
         for(j=0; j<i; ++j) {
             double scaling_factor = dot_product(vector_size, vector_size, q, j, q, i, vector_size) / dot_product(vector_size, vector_size, q, j, q, j, vector_size);
             //printf('%20.6f', scaling_factor);
-            /* Subtract each scaled component of q_j from q_i */
+            // Subtract each scaled component of q_j from q_i
             for(k=0; k<vector_size; ++k)
                 q[i][k] -= scaling_factor*q[j][k];
         }
     }
-}
+}*/
 
 /*int main() {
 
