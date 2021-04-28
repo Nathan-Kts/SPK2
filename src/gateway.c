@@ -5,7 +5,7 @@
 #include "gateway.h"
 #include "gaus_elimination.h"
 
-void gateway(int nbr_vectors, int vector_size, double private_lattice[nbr_vectors][vector_size], double public_lattice[nbr_vectors][vector_size]){
+void gateway(int nbr_vectors, int vector_size, double private_lattice[nbr_vectors][vector_size], double public_lattice[nbr_vectors][vector_size]) {
     //create_random_lattice(nbr_vectors, vector_size, private_lattice);
     create_private_lattice(nbr_vectors, vector_size, private_lattice);
     //printf("Private matrix : \n");

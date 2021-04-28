@@ -52,7 +52,7 @@ void public_generation(int nbr_vectors, int vector_size, double private_lattice[
             if (i == j)
                 unimodular[i][j] = 1;
             else if (i < j)
-                unimodular[i][j] = rand()%PRIVATE_LATTICE_LIMIT;
+                unimodular[i][j] = rand()%PRIVATE_LATTICE_LIMIT/2;
             else if (j < i)
                 unimodular[i][j] = 0;
         }
@@ -88,7 +88,7 @@ void public_generation(int nbr_vectors, int vector_size, double private_lattice[
     }*/
 
     //printf("dd\n");
-    //print_matrix(nbr_vectors, vector_size, public_lattice);
+    //print_matrix(nbr_vectors, vector_size, private_lattice);
 
     //TODO Test if same lattice
     double private_lattice_test[NBR_VECTORS][VECTOR_SIZE], public_lattice_test[NBR_VECTORS][VECTOR_SIZE];
