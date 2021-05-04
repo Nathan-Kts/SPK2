@@ -15,7 +15,7 @@ void public_to_new_private_best_idea(int nbr_vectors, int vector_size, double re
     //for(int i = 0; i < 1; i++){
     int vector = 0; //rand()%vector_size;
     for(int j = 0; j < vector_size; j++)
-        new_private_lattice[vector][j] = received_public_lattice[vector][j];
+        new_private_lattice[vector][j] = received_public_lattice[vector][j]/10;
     //}
 
 
@@ -23,19 +23,12 @@ void public_to_new_private_best_idea(int nbr_vectors, int vector_size, double re
     //TODO write high level code and send and share with Michael
     // Write conferance paper
 
-
-    printf("New private matrix b : \n");
-    print_matrix(nbr_vectors, vector_size, new_private_lattice);
-
-    gram_schimdt(nbr_vectors, new_private_lattice);
-
-    printf("New private matrix a : \n");
-    print_matrix(nbr_vectors, vector_size, new_private_lattice);
+    //TODO gram_schimdt(nbr_vectors, new_private_lattice);
 
     printf("Length of private lattice random with points : %f - %f\n", gs_norm(NBR_VECTORS, VECTOR_SIZE, new_private_lattice, new_public_lattice), max_norm(NBR_VECTORS, VECTOR_SIZE, new_private_lattice));
 
-    //double unimodular[nbr_vectors][vector_size];
-    //public_generation(nbr_vectors, vector_size, new_private_lattice, new_public_lattice, unimodular);
+    double unimodular[nbr_vectors][vector_size];
+    public_generation(nbr_vectors, vector_size, new_private_lattice, new_public_lattice, unimodular);
 }
 
 /**

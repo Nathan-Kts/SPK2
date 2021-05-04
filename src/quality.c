@@ -35,6 +35,14 @@ double norm(int nbr_vectors, int vector_size, double input[nbr_vectors][vector_s
     return sqrt(min_length)/sqrt(max_length);
 }
 
+double vec_norm(int nbr_vectors, int vector_size, int line, double input[nbr_vectors][vector_size]){
+    double temp = 0;
+    for (int i = 0; i < nbr_vectors; ++i) {
+        temp += input[line][i]*input[line][i];
+    }
+    return sqrt(temp);
+}
+
 /*double total_norm(int nbr_vectors, int vector_size, double input[nbr_vectors][vector_size]){
     double total_length = 0;
     for (int i = 0; i < nbr_vectors; ++i) {
@@ -83,4 +91,25 @@ double gs_norm(int nbr_vectors, int vector_size, double A[nbr_vectors][vector_si
         }
     }
     return norm(nbr_vectors, vector_size, Q);
+}
+
+
+double hamdamard_ratio(int nbr_vectors, double input[nbr_vectors][nbr_vectors]){
+    double temp[nbr_vectors][nbr_vectors];
+    for (int i = 0; i < nbr_vectors; i++){
+        for (int j = 0; j < nbr_vectors; j++) {
+            temp[i][j] = input[i][j];
+        }
+    }
+    gauss_elimination(nbr_vectors, nbr_vectors, temp);
+    double detOfLattice = 1;
+    for(int i = 0; i < nbr_vectors; i++) {
+        detOfLattice *= temp[i][i];
+    }
+    float mult = 1;
+    for (int i = 0; i < nbr_vectors; i++) {
+        mult = mult * vec_norm(nbr_vectors, nbr_vectors, i, input);
+    }
+    double hratio = powf((detOfLattice / mult),(1.0 / nbr_vectors));
+    return hratio;
 }

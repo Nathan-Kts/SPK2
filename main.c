@@ -32,7 +32,7 @@ int main()
     double intersection_1[NBR_VECTORS][VECTOR_SIZE], intersection_2[NBR_VECTORS][VECTOR_SIZE];
     double private_lattice_1[NBR_VECTORS][VECTOR_SIZE];//, private_lattice_2[NBR_VECTORS][VECTOR_SIZE];
 
-    sensor(NBR_VECTORS, VECTOR_SIZE, public_lattice_g, private_lattice_1, intersection_1);
+    //sensor(NBR_VECTORS, VECTOR_SIZE, public_lattice_g, private_lattice_1, intersection_1);
     //sensor(NBR_VECTORS, VECTOR_SIZE, intersection_1, private_lattice_2, intersection_2);
 
     //printf("Final intersection used to encrypt : \n");
@@ -44,15 +44,15 @@ int main()
         srand(count);
 #endif
 
-    printf("Private 1\n");
-    print_matrix(NBR_VECTORS, VECTOR_SIZE, private_lattice_1);
-    printf("Public 1\n");
-    print_matrix(NBR_VECTORS, VECTOR_SIZE, intersection_1);
+    //printf("Private 1\n");
+    //print_matrix(NBR_VECTORS, VECTOR_SIZE, private_lattice_1);
+    //printf("Public 1\n");
+    //print_matrix(NBR_VECTORS, VECTOR_SIZE, intersection_1);
 
     int i;
     double secret[VECTOR_SIZE];
     for (i = 0; i < VECTOR_SIZE; ++i)
-        secret[i] = (MODULO_LATTICE / 2) * (rand() % 2);
+        secret[i] = (rand() % 2);//(MODULO_LATTICE / 2) * (rand() % 2);
     /*if(i%2==0)
         secret[i]=0;
     else
@@ -62,7 +62,7 @@ int main()
     printf("Secret Message : \n");
     print_vector(VECTOR_SIZE, secret);
 
-    product_matrix_vector(NBR_VECTORS, VECTOR_SIZE, intersection_1, secret, message);
+    product_matrix_vector(NBR_VECTORS, VECTOR_SIZE, public_lattice_g, secret, message);
     noise_maker(VECTOR_SIZE, message);
     printf("Broadcast Message : \n");
     print_vector(VECTOR_SIZE, message);
@@ -108,11 +108,11 @@ int main()
         if (secret[i] == 0 && decode_0[i] <= 20)
             j++;
     }
-    //printf("Number of good decryption : %d/%d\n", j, VECTOR_SIZE);
+    printf("Number of good decryption : %d/%d\n", j, VECTOR_SIZE);
 
 
 
-
+/*
 
     inversion_matrix(NBR_VECTORS, private_lattice_1, output);
     product_matrix_vector(NBR_VECTORS, VECTOR_SIZE, output, message, decode_0);
@@ -145,7 +145,7 @@ int main()
             j++;
     }
     printf("Number of good decryption : %d/%d\n", j, 2*VECTOR_SIZE);
-
+*/
 
     double temp[NBR_VECTORS][VECTOR_SIZE];
     printf("Length of private lattice g : %f and the public : %f\n", gs_norm(NBR_VECTORS, VECTOR_SIZE, private_lattice_g, temp), gs_norm(NBR_VECTORS, VECTOR_SIZE, public_lattice_g, temp));

@@ -11,5 +11,5 @@
 double max_norm(int nbr_vectors, int vector_size, double input[nbr_vectors][vector_size]);
 double gs_norm(int nbr_vectors, int vector_size, double A[nbr_vectors][vector_size], double Q[nbr_vectors][vector_size]);
 double total_norm(int nbr_vectors, int vector_size, double input[nbr_vectors][vector_size]);
-
+double hamdamard_ratio(int nbr_vectors, double input[nbr_vectors][nbr_vectors]);
 #endif //TFE_KEM_QUALITY_H

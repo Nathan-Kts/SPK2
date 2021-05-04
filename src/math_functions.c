@@ -237,21 +237,21 @@ void gram_schimdt(int vector_size, double q[vector_size][vector_size]) {
         // Normalisation ok column i
         double scaling_factor = 0;
         for(j=0; j<vector_size; ++j)
-            scaling_factor += A0[j][i]*A0[j][i];
+            scaling_factor += A0[i][j]*A0[i][j]; //TODO
         scaling_factor = sqrt(scaling_factor);
         for(j=0; j<vector_size; ++j)
-            Q[j][i] = A0[j][i]/scaling_factor;
+            Q[i][j] = A0[i][j]/scaling_factor;
 
         //Orthogonalization of all the other columns
         for(k=i+1; k<vector_size; k++){
             temp = product_vector_vector(vector_size, vector_size, A0, k, Q, i, vector_size);
             //printf("%d\n", (int) (1000*temp));
             for(j=0; j<vector_size; j++){
-                A0[j][k] = A0[j][k] - Q[j][i]*temp;
+                A0[k][j] = A0[k][j] - Q[i][j]*temp;
             }
         }
     }
-    product_matrix_prime_matrix(vector_size, vector_size, Q, q, A0);
+    //product_matrix_prime_matrix(vector_size, vector_size, Q, q, A0);
 
 
 
@@ -264,7 +264,8 @@ void gram_schimdt(int vector_size, double q[vector_size][vector_size]) {
 
     //return norm(vector_size, vector_size, Q);
 }
-    /*int i, j, k;
+
+/*int i, j, k;
 
     for(i=1; i<vector_size; ++i) {
         for(j=0; j<i; ++j) {

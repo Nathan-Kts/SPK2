@@ -25,11 +25,12 @@ void create_private_lattice(int nbr_vectors, int vector_size, double output[nbr_
 
     for (i = 0; i<nbr_vectors; i++)
         for (j = 0; j < vector_size; j++)
-                output[i][j] = rand()%PRIVATE_LATTICE_LIMIT;
+            if (i == j)
+                output[i][j] = (rand()%PRIVATE_LATTICE_LIMIT)+1;
 
     //print_matrix(NBR_VECTORS, VECTOR_SIZE, output);
 
-    gram_schimdt(nbr_vectors, output);
+    //gram_schimdt(nbr_vectors, output);
 
     //print_matrix(NBR_VECTORS, VECTOR_SIZE, output);
 
@@ -37,6 +38,19 @@ void create_private_lattice(int nbr_vectors, int vector_size, double output[nbr_
         for (j = 0; j < vector_size; j++)
             output[i][j] = (double) (int) output[i][j];
 }//end create_private_lattice()
+
+void unimodular_generation(int nbr_vectors, int vector_size, double unimodular[nbr_vectors][vector_size]){
+    for (int i = 0; i < nbr_vectors; ++i) {
+        for (int j = 0; j < vector_size; ++j) {
+            if (i == j)
+                unimodular[i][j] = 1;
+            else if (i < j)
+                unimodular[i][j] = rand()%PRIVATE_LATTICE_LIMIT/2;
+            else if (j < i)
+                unimodular[i][j] = 0;
+        }
+    }
+}
 
 void public_generation(int nbr_vectors, int vector_size, double private_lattice[nbr_vectors][vector_size], double public_lattice[nbr_vectors][vector_size], double unimodular[nbr_vectors][vector_size]){
     /*int i, j, k, multiplier;
@@ -47,17 +61,7 @@ void public_generation(int nbr_vectors, int vector_size, double private_lattice[
     for(k = 0; k < vector_size; k++)
         public_lattice[i][k] = modd(public_lattice[i][k]+1, MODULO_LATTICE);*/
 
-    for (int i = 0; i < vector_size; ++i) {
-        for (int j = 0; j < vector_size; ++j) {
-            if (i == j)
-                unimodular[i][j] = 1;
-            else if (i < j)
-                unimodular[i][j] = rand()%PRIVATE_LATTICE_LIMIT/2;
-            else if (j < i)
-                unimodular[i][j] = 0;
-        }
-    }
-
+    unimodular_generation(nbr_vectors, vector_size, unimodular);
     product_matrix_matrix(nbr_vectors, vector_size, unimodular, private_lattice, public_lattice);
 
     //for(int i = 0; i < nbr_vectors; i++)
@@ -111,6 +115,6 @@ void public_generation(int nbr_vectors, int vector_size, double private_lattice[
         test_public *= output_public[i][i];
         //printf("%f et %f\n", test_public, output_public[i][i]);
     }
-    float trol = abs(test_public)/abs(test_private);
-    printf("The matrices have %f size and share %f%\n", test_private, trol);
+    //float trol = abs(test_public)/abs(test_private);
+    //printf("The matrices have %f size and share %f%\n", test_private, trol);
 }

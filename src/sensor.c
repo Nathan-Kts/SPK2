@@ -14,8 +14,8 @@ void sensor(int nbr_vectors, int vector_size, double received_public_lattice[nbr
     public_to_new_private_best_idea(nbr_vectors, vector_size, received_public_lattice, new_private_lattice, new_public_lattice);
     //public_to_new_private_one_vector(nbr_vectors, vector_size, received_public_lattice, new_private_lattice, new_public_lattice);
 
-    printf("New private matrix : \n");
-    print_matrix(nbr_vectors, vector_size, new_private_lattice);
+    printf("New public matrix : \n");
+    print_matrix(nbr_vectors, vector_size, new_public_lattice);
 
     ////public_generation(nbr_vectors, vector_size, new_private_lattice, new_public_lattice);
     //printf("New public matrix : \n");
@@ -24,7 +24,7 @@ void sensor(int nbr_vectors, int vector_size, double received_public_lattice[nbr
     intersection_lattice(nbr_vectors, vector_size, received_public_lattice, new_public_lattice, intersection);
 
     //TODO maybe leave it uncommented
-    // gauss_elimination(nbr_vectors, vector_size, intersection);
+    //gauss_elimination(nbr_vectors, vector_size, intersection);
 
     //TODO for(int i=0;i<nbr_vectors;i++)
     //    for(int j=0;j<vector_size;j++)
