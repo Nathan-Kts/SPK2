@@ -53,7 +53,7 @@ int main()
     int i;
     double secret[VECTOR_SIZE];
     for (i = 0; i < VECTOR_SIZE; ++i)
-        secret[i] = (MODULO_LATTICE) * (rand() % 2);
+        secret[i] = (MODULO_LATTICE/2) * (rand() % 2);
     /*if(i%2==0)
         secret[i]=0;
     else
@@ -64,6 +64,16 @@ int main()
     print_vector(VECTOR_SIZE, secret);
 
     product_matrix_vector(NBR_VECTORS, VECTOR_SIZE, public_lattice_g, secret, message);
+
+    /*printf("Broadcast Message : \n");
+    print_vector(VECTOR_SIZE, message);
+
+    for(int j=0;j<VECTOR_SIZE;j++)
+        message[j] = modd(message[j], MODULO_LATTICE);
+
+    printf("Broadcast Message : \n");
+    print_vector(VECTOR_SIZE, message);*/
+
     noise_maker(VECTOR_SIZE, message);
     printf("Broadcast Message : \n");
     print_vector(VECTOR_SIZE, message);
@@ -96,9 +106,9 @@ int main()
     inversion_matrix(NBR_VECTORS, public_lattice_g, output);
     product_matrix_vector(NBR_VECTORS, VECTOR_SIZE, output, decode_1, decode_0);
 
-    /*for (int N = 0; N < VECTOR_SIZE; ++N) {
-        decode_0[N] = round(decode_0[N]);
-    }*/
+    for (int N = 0; N < VECTOR_SIZE; ++N) {
+        decode_0[N] = modd(decode_0[N], MODULO_LATTICE);
+    }
 
     printf("received messages \n");
     print_vector(NBR_VECTORS, decode_0);
@@ -106,11 +116,15 @@ int main()
     //print_matrix(NBR_VECTORS, VECTOR_SIZE, output);
 
 
+
+
     int j = 0;
     for (i = 0; i < VECTOR_SIZE; ++i) {
-        if (decode_0[i] <= MODULO_LATTICE/2 && secret[i] == 0)
+        if (secret[i] == 0 && decode_0[i] <= MODULO_LATTICE/4)
             j++;
-        if (secret[i] == MODULO_LATTICE && decode_0[i] > MODULO_LATTICE/2)
+        else if (secret[i] == 0 && decode_0[i] >= 3*MODULO_LATTICE/4)
+            j++;
+        if (secret[i] != 0 && decode_0[i] > MODULO_LATTICE/4 && decode_0[i] < 3*MODULO_LATTICE/4)
             j++;
     }
     printf("Number of good decryption : %d/%d\n", j, VECTOR_SIZE);
