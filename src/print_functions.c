@@ -15,6 +15,6 @@ void print_matrix(int n, int m, double matrix[n][m]){
 void print_vector(int n, double vector[n]){
     int i;
     for(i=0; i<n; i++)
-            printf("%10.2f", vector[i]);
+            printf("%20.2f", vector[i]);
     printf("\n");
 }

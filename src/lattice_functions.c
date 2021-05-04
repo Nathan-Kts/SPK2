@@ -27,16 +27,17 @@ void create_private_lattice(int nbr_vectors, int vector_size, double output[nbr_
         for (j = 0; j < vector_size; j++)
             if (i == j)
                 output[i][j] = (rand()%PRIVATE_LATTICE_LIMIT)+1;
-
+            //else
+                //output[i][j] = (rand()%PRIVATE_LATTICE_LIMIT/500)+1;
     //print_matrix(NBR_VECTORS, VECTOR_SIZE, output);
 
     //gram_schimdt(nbr_vectors, output);
 
     //print_matrix(NBR_VECTORS, VECTOR_SIZE, output);
 
-    for (i = 0; i<nbr_vectors; i++)
+    /*for (i = 0; i<nbr_vectors; i++)
         for (j = 0; j < vector_size; j++)
-            output[i][j] = (double) (int) output[i][j];
+            output[i][j] = (double) (int) output[i][j];*/
 }//end create_private_lattice()
 
 void unimodular_generation(int nbr_vectors, int vector_size, double unimodular[nbr_vectors][vector_size]){
@@ -45,7 +46,7 @@ void unimodular_generation(int nbr_vectors, int vector_size, double unimodular[n
             if (i == j)
                 unimodular[i][j] = 1;
             else if (i < j)
-                unimodular[i][j] = rand()%PRIVATE_LATTICE_LIMIT/2;
+                unimodular[i][j] = rand()%PUBLIC_LATTICE_LIMIT-PUBLIC_LATTICE_LIMIT/2;
             else if (j < i)
                 unimodular[i][j] = 0;
         }

@@ -13,11 +13,18 @@
 //#include "src/HNF.c"
 #include "quality.c"
 
-//#define TEST
+#define TEST
 #define NBR_TEST 1000
 
 int main()
 {
+
+#if defined(TEST)
+    int total = 0;
+    for(int count = 0; count < NBR_TEST; count++){
+        srand(count);
+#endif
+
     //Gateway
     double private_lattice_g[NBR_VECTORS][VECTOR_SIZE], public_lattice_g[NBR_VECTORS][VECTOR_SIZE];
     gateway(NBR_VECTORS, VECTOR_SIZE, private_lattice_g, public_lattice_g);
@@ -38,12 +45,6 @@ int main()
     //printf("Final intersection used to encrypt : \n");
     //print_matrix(NBR_VECTORS, VECTOR_SIZE, intersection_1);
 
-#if defined(TEST)
-    int total = 0;
-    for(int count = 0; count < NBR_TEST; count++){
-        srand(count);
-#endif
-
     //printf("Private 1\n");
     //print_matrix(NBR_VECTORS, VECTOR_SIZE, private_lattice_1);
     //printf("Public 1\n");
@@ -52,7 +53,7 @@ int main()
     int i;
     double secret[VECTOR_SIZE];
     for (i = 0; i < VECTOR_SIZE; ++i)
-        secret[i] = (rand() % 2);//(MODULO_LATTICE / 2) * (rand() % 2);
+        secret[i] = (MODULO_LATTICE) * (rand() % 2);
     /*if(i%2==0)
         secret[i]=0;
     else
@@ -81,19 +82,23 @@ int main()
     double output[NBR_VECTORS][VECTOR_SIZE];
 
 
+
+
     inversion_matrix(NBR_VECTORS, private_lattice_g, output);
     product_matrix_vector(NBR_VECTORS, VECTOR_SIZE, output, message, decode_0);
-    for (int N = 0; N < VECTOR_SIZE; ++N) {
+
+    /*for (int N = 0; N < VECTOR_SIZE; ++N) {
         decode_0[N] = round(decode_0[N]);
-    }
+    }*/
+
     product_matrix_vector(NBR_VECTORS, VECTOR_SIZE, private_lattice_g, decode_0, decode_1);
 
     inversion_matrix(NBR_VECTORS, public_lattice_g, output);
     product_matrix_vector(NBR_VECTORS, VECTOR_SIZE, output, decode_1, decode_0);
 
-    for (int N = 0; N < VECTOR_SIZE; ++N) {
+    /*for (int N = 0; N < VECTOR_SIZE; ++N) {
         decode_0[N] = round(decode_0[N]);
-    }
+    }*/
 
     printf("received messages \n");
     print_vector(NBR_VECTORS, decode_0);
@@ -103,9 +108,9 @@ int main()
 
     int j = 0;
     for (i = 0; i < VECTOR_SIZE; ++i) {
-        if (secret[i] == 50 && decode_0[i] >= 20)
+        if (decode_0[i] <= MODULO_LATTICE/2 && secret[i] == 0)
             j++;
-        if (secret[i] == 0 && decode_0[i] <= 20)
+        if (secret[i] == MODULO_LATTICE && decode_0[i] > MODULO_LATTICE/2)
             j++;
     }
     printf("Number of good decryption : %d/%d\n", j, VECTOR_SIZE);

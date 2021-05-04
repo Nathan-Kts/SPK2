@@ -68,7 +68,7 @@ void noise_maker(int vector_size, double message[vector_size]){
     int i;
     double temp;
     for(i = 0; i < vector_size; i++) {
-        temp = (rand() % 4) - 2;
+        temp = (rand() % 20) - 10;
         //printf("%f\n", temp);
         message[i] += temp;
         //message[i] = modd(message[i]+0.5, MODULO_LATTICE);

@@ -12,8 +12,8 @@ void gateway(int nbr_vectors, int vector_size, double private_lattice[nbr_vector
         double unimodular[nbr_vectors][vector_size];
         public_generation(nbr_vectors, vector_size, private_lattice, public_lattice, unimodular);
         double ratio = hamdamard_ratio(nbr_vectors, public_lattice);
+        printf("Ratio %f\n", ratio);
         if (ratio <= HADAMARD_RATIO){
-            printf("Ratio %f\n", ratio);
             break;
         }
     }
