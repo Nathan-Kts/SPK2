@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.17)
 project(TFE_KEM)
 
-set(CMAKE_C_STANDARD 99)
-#set(CMAKE_CXX_STANDARD 14)
+#set(CMAKE_C_STANDARD 99)
+set(CMAKE_CXX_STANDARD 14)
 
 set(SOURCE_FILES main.c)
 add_executable(TFE_KEM ${SOURCE_FILES})

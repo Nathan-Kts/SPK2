@@ -10,6 +10,8 @@ void print_matrix(int n, int m, double matrix[n][m]){
             printf("%20.6f", matrix[i][j]);
         printf("\n");
     }
+    printf("\n");
+
 }
 
 void print_vector(int n, double vector[n]){

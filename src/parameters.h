@@ -9,8 +9,8 @@
 #define PUBLIC_LATTICE_LIMIT 20
 #define ERROR_MAX 100
 
-//#define PRINT_MATRICES
-#define TEST
+#define PRINT_MATRICES
+//#define TEST
 #define NBR_TEST 1000
 
 

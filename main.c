@@ -1,5 +1,4 @@
 #include <stdio.h>
-//#include <time.h>
 #include <crypto_functions.h>
 #include <sensor.h>
 #include <gateway.h>
@@ -11,14 +10,11 @@
 #include "src/print_functions.c"
 #include "src/public_to_private.c"
 #include "src/compute_intersection.c"
-//#include "src/HNF.c"
 #include "quality.c"
-
 
 
 int main()
 {
-
     printf("Building random generator\n");
     prepare_random();
 

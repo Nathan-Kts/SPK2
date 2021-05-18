@@ -82,6 +82,7 @@ void secret_builder(int nbr_vectors, int vector_size, double public_lattice[nbr_
     int i;
     for (i = 0; i < nbr_vectors; ++i)
         secret[i] = (MODULO_LATTICE/2) * (random_double(2));
+    secret[nbr_vectors-1] = (MODULO_LATTICE/2);
 
     printf("Secret Message : \n");
     print_vector(vector_size, secret);

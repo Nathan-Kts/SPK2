@@ -25,14 +25,20 @@ void sensor(int nbr_vectors, int vector_size, double received_public_lattice[nbr
         }
         max_amount += 1;
     }
-
+    //print_matrix(nbr_vectors, nbr_vectors, received_public_lattice);
     intersection_lattice(nbr_vectors, vector_size, received_public_lattice, new_public_lattice, intersection);
-
+    //print_matrix(nbr_vectors, nbr_vectors, intersection);
     gauss_elimination(nbr_vectors, vector_size, intersection);
+    //print_matrix(nbr_vectors, nbr_vectors, intersection);
 
-    for(int i=0;i<nbr_vectors;i++)
-        for(int j=0;j<vector_size;j++)
+    for(int i=0;i<nbr_vectors;i++) {
+        for (int j = 0; j < vector_size; j++)
             intersection[i][j] = modd(intersection[i][j], MODULO_LATTICE);
+        if(intersection[i][i] < 0.1)
+            intersection[i][i] = 17.0;
+    }
+
+
 
 
 #if defined(PRINT_MATRICES)
