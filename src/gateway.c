@@ -28,7 +28,7 @@ void gateway(int nbr_vectors, int vector_size, double private_lattice[nbr_vector
         for(int j=0;j<vector_size;j++)
             public_lattice[i][j] = modd(public_lattice[i][j], MODULO_LATTICE);
 
-#if defined(PRINT_MATRICES)
+#if defined(PRINT_MATRICEES)
     printf("Private g\n");
     print_matrix(NBR_VECTORS, VECTOR_SIZE, private_lattice);
     printf("Public g\n");
