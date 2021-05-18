@@ -2,6 +2,7 @@
 #include "gaus_elimination.h"
 #include "math_functions.h"
 #include "print_functions.h"
+#include "random.h"
 
 /**
  * @brief Creates a random lattice
@@ -20,25 +21,39 @@ void create_random_lattice(int n, int m, double output[n][m]){
                 output[i][j] = rand()%(MODULO_LATTICE/4); //TODO change back tà MODDULO_LATTICE/1000
 }//end create_lattice()
 
-void create_private_lattice(int nbr_vectors, int vector_size, double output[nbr_vectors][vector_size]){
+void create_private_lattice(int nbr_vectors, int vector_size, double output[nbr_vectors][vector_size]) {
     int i, j;
 
-    for (i = 0; i<nbr_vectors; i++)
+    for (i = 0; i < nbr_vectors; i++)
         for (j = 0; j < vector_size; j++)
             if (i == j)
-                output[i][j] = (rand()%PRIVATE_LATTICE_LIMIT)+1;
-            //else
-                //output[i][j] = (rand()%PRIVATE_LATTICE_LIMIT/500)+1;
+                output[i][j] = random_double(PRIVATE_LATTICE_LIMIT) + 1;
+            else
+                output[i][j] = 0;
     //print_matrix(NBR_VECTORS, VECTOR_SIZE, output);
 
     //gram_schimdt(nbr_vectors, output);
 
     //print_matrix(NBR_VECTORS, VECTOR_SIZE, output);
+}
 
-    /*for (i = 0; i<nbr_vectors; i++)
+void create_private_lattice2(int nbr_vectors, int vector_size, double output[nbr_vectors][vector_size]) {
+    int i, j;
+
+    for (i = 0; i < nbr_vectors; i++)
         for (j = 0; j < vector_size; j++)
-            output[i][j] = (double) (int) output[i][j];*/
-}//end create_private_lattice()
+            if (i == j)
+                output[i][j] = random_double(PRIVATE_LATTICE_LIMIT) + 1;
+
+    //print_matrix(NBR_VECTORS, VECTOR_SIZE, output);
+
+    //gram_schimdt(nbr_vectors, output);
+
+    //print_matrix(NBR_VECTORS, VECTOR_SIZE, output);
+    for(int i=0;i<nbr_vectors;i++)
+        for(int j=0;j<vector_size;j++)
+            output[i][j] = modd(output[i][j], MODULO_LATTICE);
+}
 
 void unimodular_generation(int nbr_vectors, int vector_size, double unimodular[nbr_vectors][vector_size]){
     for (int i = 0; i < nbr_vectors; ++i) {
@@ -46,11 +61,15 @@ void unimodular_generation(int nbr_vectors, int vector_size, double unimodular[n
             if (i == j)
                 unimodular[i][j] = 1;
             else if (i < j)
-                unimodular[i][j] = rand()%PUBLIC_LATTICE_LIMIT-PUBLIC_LATTICE_LIMIT/2;
+                unimodular[i][j] = random_double(PUBLIC_LATTICE_LIMIT)-PUBLIC_LATTICE_LIMIT/2;
             else if (j < i)
                 unimodular[i][j] = 0;
         }
     }
+#if defined(PRINT_MATRICES)
+    //printf("Unimodular :\n");
+    //print_matrix(nbr_vectors, nbr_vectors, unimodular);
+#endif
 }
 
 void public_generation(int nbr_vectors, int vector_size, double private_lattice[nbr_vectors][vector_size], double public_lattice[nbr_vectors][vector_size], double unimodular[nbr_vectors][vector_size]){
@@ -95,8 +114,8 @@ void public_generation(int nbr_vectors, int vector_size, double private_lattice[
     //printf("dd\n");
     //print_matrix(nbr_vectors, vector_size, private_lattice);
 
-    //TODO Test if same lattice
-    double private_lattice_test[NBR_VECTORS][VECTOR_SIZE], public_lattice_test[NBR_VECTORS][VECTOR_SIZE];
+    ///Test to see if the lattices are the same
+    /*double private_lattice_test[NBR_VECTORS][VECTOR_SIZE], public_lattice_test[NBR_VECTORS][VECTOR_SIZE];
     double output_private[NBR_VECTORS][VECTOR_SIZE], output_public[NBR_VECTORS][VECTOR_SIZE];
     for(i = 0; i < nbr_vectors; i++)
         for(j = 0; j < vector_size; j++)
@@ -117,5 +136,5 @@ void public_generation(int nbr_vectors, int vector_size, double private_lattice[
         //printf("%f et %f\n", test_public, output_public[i][i]);
     }
     //float trol = abs(test_public)/abs(test_private);
-    //printf("The matrices have %f size and share %f%\n", test_private, trol);
+    //printf("The matrices have %f size and share %f%\n", test_private, trol);*/
 }

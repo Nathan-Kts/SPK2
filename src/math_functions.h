@@ -15,6 +15,7 @@ int msb(int n);
 double log(double input);
 double round(double input);
 double product_vector_vector(int nbr_vectors, int vector_size, double vector_1[nbr_vectors][vector_size], int line_1, double vector_2[nbr_vectors][vector_size], int line_2, int size);
+double product_vector_alone_vector(int nbr_vectors, int vector_size, double vector_1[vector_size], double vector_2[nbr_vectors][vector_size], int line_2, int size);
 void product_matrix_prime_matrix(int nbr_vectors, int vector_size, double matrix_1[nbr_vectors][vector_size], double matrix_2[nbr_vectors][vector_size], double output[nbr_vectors][vector_size]);
 void product_matrix_matrix(int nbr_vectors, int vector_size, double matrix_1[nbr_vectors][vector_size], double matrix_2[nbr_vectors][vector_size], double output[nbr_vectors][vector_size]);
 void product_matrix_vector(int nbr_vectors, int vector_size, double matrix[nbr_vectors][vector_size], double vector[vector_size], double output[vector_size]);

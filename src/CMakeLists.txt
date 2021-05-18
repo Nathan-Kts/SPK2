@@ -12,6 +12,7 @@ set(HEADER_FILES
         crypto_functions.h
         sensor.h
         gateway.h
+        random.h
         )
 
 set(SOURCE_FILES
@@ -25,6 +26,7 @@ set(SOURCE_FILES
         crypto_functions.c
         sensor.c
         gateway.c
+        random.c
         )
 
 add_library(src STATIC ${SOURCE_FILES} ${HEADER_FILES})

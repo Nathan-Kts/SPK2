@@ -18,3 +18,34 @@ void print_vector(int n, double vector[n]){
             printf("%20.2f", vector[i]);
     printf("\n");
 }
+
+void print_final_output(int n, double secret[n], double decoded_1[n], double decoded_2[n]){
+    for (int i = 0; i < n; ++i) {
+        if (secret[i] <= MODULO_LATTICE/4)
+            printf("%20.2f", 0.0);
+        else if (secret[i] >= 3*MODULO_LATTICE/4)
+            printf("%20.2f", 0.0);
+        if (secret[i] > MODULO_LATTICE/4 && secret[i] < 3*MODULO_LATTICE/4)
+            printf("%20.2f", 1.0);
+    }
+    printf("\n");
+
+    for (int i = 0; i < n; ++i) {
+        if (decoded_1[i] <= MODULO_LATTICE/4)
+            printf("%20.2f", 0.0);
+        else if (decoded_1[i] >= 3*MODULO_LATTICE/4)
+            printf("%20.2f", 0.0);
+        if (decoded_1[i] > MODULO_LATTICE/4 && decoded_1[i] < 3*MODULO_LATTICE/4)
+            printf("%20.2f", 1.0);
+    }
+    printf("\n");
+    for (int i = 0; i < n; ++i) {
+        if (decoded_2[i] <= MODULO_LATTICE/4)
+            printf("%20.2f", 0.0);
+        else if (decoded_2[i] >= 3*MODULO_LATTICE/4)
+            printf("%20.2f", 0.0);
+        if (decoded_2[i] > MODULO_LATTICE/4 && decoded_2[i] < 3*MODULO_LATTICE/4)
+            printf("%20.2f", 1.0);
+    }
+    printf("\n");
+}

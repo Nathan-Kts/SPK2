@@ -2,33 +2,60 @@
 #include "lattice_functions.h"
 #include "quality.h"
 #include "print_functions.h"
+#include "gaus_elimination.h"
+#include "random.h"
 
-void public_to_new_private_best_idea(int nbr_vectors, int vector_size, double received_public_lattice[nbr_vectors][vector_size], double new_private_lattice[nbr_vectors][vector_size], double new_public_lattice[nbr_vectors][vector_size]){
+void public_to_new_private_best_idea(int nbr_vectors, int vector_size, double received_public_lattice[nbr_vectors][vector_size], double new_private_lattice[nbr_vectors][vector_size]){
+    //create a random lattice
+    //create_random_lattice(nbr_vectors, vector_size, new_private_lattice);
+    create_private_lattice(nbr_vectors, vector_size, new_private_lattice);
+    double old_base[nbr_vectors][vector_size];
+
+    //printf("Length of private lattice random : %f - %f\n", gs_norm(NBR_VECTORS, VECTOR_SIZE, new_private_lattice, new_public_lattice), max_norm(NBR_VECTORS, VECTOR_SIZE, new_private_lattice));
+
+    //printf("Before %f\n", norm(nbr_vectors, vector_size, new_private_lattice));
+
+    //for(int i = 0; i < 1; i++){
+    int vecto = random_double(5)+1;
+    //TODO Problem here, I have to find a way to be shure that the public lattice doens't have a empty or double line ! the problem here is that if this number is random it doesn't work
+    printf("I choose to copy the %dth vector\n", vecto);
+    for(int j = 0; j < vector_size; j++)
+        new_private_lattice[vecto][j] = received_public_lattice[vecto][j];
+    //}
+
+    //printf("After %f\n", norm(nbr_vectors, vector_size, new_private_lattice));
+
+    gram_schimdt(nbr_vectors, new_private_lattice);
+    gauss_elimination(nbr_vectors, vector_size, new_private_lattice);
+
+    //printf("Length of private lattice random with points : %f - %f\n", gs_norm(NBR_VECTORS, VECTOR_SIZE, new_private_lattice, new_public_lattice), max_norm(NBR_VECTORS, VECTOR_SIZE, new_private_lattice));
+}
+
+void public_to_new_private_start_ortho(int nbr_vectors, int vector_size, double received_public_lattice[nbr_vectors][vector_size], double new_private_lattice[nbr_vectors][vector_size]){
     //create a random lattice
     //create_random_lattice(nbr_vectors, vector_size, new_private_lattice);
     create_private_lattice(nbr_vectors, vector_size, new_private_lattice);
     //double old_base[(int) (nbr_vectors / 2)][vector_size];
 
-    printf("Length of private lattice random : %f - %f\n", gs_norm(NBR_VECTORS, VECTOR_SIZE, new_private_lattice, new_public_lattice), max_norm(NBR_VECTORS, VECTOR_SIZE, new_private_lattice));
+    //printf("Length of private lattice random : %f - %f\n", gs_norm(NBR_VECTORS, VECTOR_SIZE, new_private_lattice, new_public_lattice), max_norm(NBR_VECTORS, VECTOR_SIZE, new_private_lattice));
 
 
     //for(int i = 0; i < 1; i++){
-    int vector = 0; //rand()%vector_size;
-    for(int j = 0; j < vector_size; j++)
-        new_private_lattice[vector][j] = received_public_lattice[vector][j]/10;
+    int vecto = random_double(5)+1;
+    printf("I choose to copy the %dth vector\n", vecto);
+    for(int j = vecto; j < vector_size; j++) {
+        if (received_public_lattice[vecto][j] != 0)
+            new_private_lattice[j][j] = received_public_lattice[vecto][j];
+        else
+            new_private_lattice[j][j] = random_double(PRIVATE_LATTICE_LIMIT)+1;
+    }
     //}
 
 
+    //gram_schimdt(nbr_vectors, new_private_lattice);
+    //gauss_elimination(nbr_vectors, vector_size, new_private_lattice);
 
-    //TODO write high level code and send and share with Michael
-    // Write conferance paper
-
-    //TODO gram_schimdt(nbr_vectors, new_private_lattice);
-
-    printf("Length of private lattice random with points : %f - %f\n", gs_norm(NBR_VECTORS, VECTOR_SIZE, new_private_lattice, new_public_lattice), max_norm(NBR_VECTORS, VECTOR_SIZE, new_private_lattice));
-
-    double unimodular[nbr_vectors][vector_size];
-    public_generation(nbr_vectors, vector_size, new_private_lattice, new_public_lattice, unimodular);
+    //printf("Length of private lattice random with points : %f - %f\n", gs_norm(NBR_VECTORS, VECTOR_SIZE, new_private_lattice, new_public_lattice), max_norm(NBR_VECTORS, VECTOR_SIZE, new_private_lattice));
 }
 
 /**

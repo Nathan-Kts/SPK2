@@ -31,7 +31,7 @@ long mod(long a, int b){
  * @return The modulus rounded to the nearest integer
  */
 double modd(double a, int b){
-    if(a >= -0.01) //TODO to adjust with time
+    if(a >= -0.1)
         return (double) ((int) (a+0.5) % b);
     else
         return (double) ((int) (a-0.5) % b) + b;
@@ -54,7 +54,7 @@ int msb(int n){
  * @param input
  * @return The natural logarithm of input
  */
-double log(double input){
+/*double log(double input){
     int log2;
     double divisor, x, result;
 
@@ -66,7 +66,11 @@ double log(double input){
     result += ((double)log2) * 0.69314718; // ln(2) = 0.69314718
 
     return result;
+}*/
+double log(double input){
+    return (input > 1) ? 1 + log(input / 2) : 0;
 }
+
 
 /**
  * @brief round a double to the nearest integer
@@ -98,6 +102,14 @@ double product_vector_vector(int nbr_vectors, int vector_size, double vector_1[n
     double output = 0;
     for(i = 0; i < size; i++)
         output += vector_1[line_1][i] * vector_2[line_2][i];
+    return output;
+}
+
+double product_vector_alone_vector(int nbr_vectors, int vector_size, double vector_1[vector_size], double vector_2[nbr_vectors][vector_size], int line_2, int size){
+    int i;
+    double output = 0;
+    for(i = 0; i < size; i++)
+        output += vector_1[i] * vector_2[line_2][i];
     return output;
 }
 
@@ -148,10 +160,10 @@ void product_matrix_matrix(int nbr_vectors, int vector_size, double matrix_1[nbr
  * @param output
  */
 void product_matrix_vector(int nbr_vectors, int vector_size, double matrix[nbr_vectors][vector_size], double vector[vector_size], double output[vector_size]){
-    int i, j, k;
+    int i, j;
     for(i = 0; i < nbr_vectors; i++)
     {
-        output[i] = 0;
+        output[i] = 0.0;
         for(j = 0; j < vector_size; j++)
         {
             output[i]+=matrix[i][j]*vector[j];
