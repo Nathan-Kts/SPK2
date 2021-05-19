@@ -73,7 +73,7 @@ int main()
     total_pirate = total_pirate + count_good_decrypt(NBR_VECTORS, secret, decoded_pirate);*/
 
     print_final_output(NBR_VECTORS, secret, decoded_0, decoded_1);
- 
+
 #if defined(TEST)
     }
     printf("Number of good decryption in base lattice : %d/%d\n", total_g, VECTOR_SIZE*NBR_TEST);

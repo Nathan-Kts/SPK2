@@ -1,6 +1,6 @@
 #pragma once
 
-#define HADAMARD_RATIO 0.17
+#define HADAMARD_RATIO 0.15
 #define NBR_VECTORS 10
 #define VECTOR_SIZE NBR_VECTORS
 #define DATA_PER_PACKET 38
