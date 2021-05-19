@@ -106,7 +106,7 @@ double smallest_possible(double input){
 }
 
 double best_possible(double input){
-    int objectif = MODULO_LATTICE/2;
+    int objectif = MODULO_LATTICE/4;
     int input_as_int = (int) input;
     double root = sqrt(input);
     double best_divisor = 1;
@@ -133,8 +133,8 @@ void public_to_new_private_start_ortho(int nbr_vectors, int vector_size, double 
     printf("I choose to copy the %dth vector\n", vecto);
     for(int j = vecto; j < vector_size; j++) {
         if (received_public_lattice[vecto][j] != 0)
-            new_private_lattice[j][j] = smallest_possible(received_public_lattice[vecto][j]);
-            //new_private_lattice[j][j] = best_possible(received_public_lattice[vecto][j]);
+            //new_private_lattice[j][j] = smallest_possible(received_public_lattice[vecto][j]);
+            new_private_lattice[j][j] = best_possible(received_public_lattice[vecto][j]);
             //new_private_lattice[j][j] = received_public_lattice[vecto][j];
         else
             new_private_lattice[j][j] = random_double(PRIVATE_LATTICE_LIMIT)+1;

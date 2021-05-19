@@ -109,7 +109,7 @@ void noise_maker(int vector_size, double message[vector_size]){
 void secret_builder(int nbr_vectors, int vector_size, double public_lattice[nbr_vectors][vector_size], double secret[nbr_vectors], double message[nbr_vectors]){
     int i;
     for (i = 0; i < nbr_vectors; ++i)
-        secret[i] = (MODULO_LATTICE/2) * (random_double(2));
+        secret[i] = (MODULO_LATTICE/2) * (random_double(1));
 
 
     printf("Secret Message : \n");
@@ -117,14 +117,13 @@ void secret_builder(int nbr_vectors, int vector_size, double public_lattice[nbr_
 
     product_matrix_vector(nbr_vectors, vector_size, public_lattice, secret, message);
 
+    //for(int j=0;j<VECTOR_SIZE;j++)
+    //    message[j] = modd(message[j], MODULO_LATTICE);
 
     //printf("Broadcast Message without noise : \n");
     //print_vector(VECTOR_SIZE, message);
 
     noise_maker(vector_size, message);
-
-    //for(int j=0;j<VECTOR_SIZE;j++)
-    //    message[j] = modd(message[j], MODULO_LATTICE);
 
     //printf("Broadcast Message with noise : \n");
     //print_vector(vector_size, message);
@@ -140,19 +139,11 @@ int count_good_decrypt(int nbr_vectors, double secret[nbr_vectors], double decod
             j++;
             error += abs(decoded_message[i]-secret[i]);
         }
-        else if (secret[i] == MODULO_LATTICE-1 && decoded_message[i] <= MODULO_LATTICE/4){
-            j++;
-            error += abs(decoded_message[i]-secret[i]);
-        }
         else if (secret[i] == 0 && decoded_message[i] >= 3*MODULO_LATTICE/4){
             j++;
             error += abs(MODULO_LATTICE-decoded_message[i]);
         }
-        else if (secret[i] == MODULO_LATTICE-1 && decoded_message[i] >= 3*MODULO_LATTICE/4){
-            j++;
-            error += abs(MODULO_LATTICE-decoded_message[i]);
-        }
-        else if (secret[i] != 0 && secret[i] != MODULO_LATTICE-1 && decoded_message[i] > MODULO_LATTICE/4 && decoded_message[i] < 3*MODULO_LATTICE/4){
+        else if (secret[i] != 0 && decoded_message[i] > MODULO_LATTICE/4 && decoded_message[i] < 3*MODULO_LATTICE/4){
             j++;
             error += abs(decoded_message[i]-secret[i]);
         }
@@ -191,10 +182,11 @@ void decrypt_babai(int nbr_vectors, int vector_size, double private_lattice[nbr_
         //print_vector(vector_size, s);
     }
 
-    inversion_matrix(nbr_vectors, public_lattice, temp_matrix);
     for (int i = 0; i < vector_size; ++i) {
         temp1[i] = message[i]-s[i];
     }
+
+    inversion_matrix(nbr_vectors, public_lattice, temp_matrix);
     product_matrix_vector(nbr_vectors, vector_size, temp_matrix, temp1, decoded_message);
 
 

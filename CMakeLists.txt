@@ -11,5 +11,3 @@ include_directories(src)
 add_subdirectory(src)
 
 target_link_libraries(TFE_KEM src)
-
-add_subdirectory(test)

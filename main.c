@@ -59,6 +59,8 @@ int main()
     double message[NBR_VECTORS], secret[NBR_VECTORS];
     secret_builder(NBR_VECTORS, VECTOR_SIZE, intersection_3, secret, message);
 
+    printf("Message :\n");
+    print_vector(NBR_VECTORS, message);
 
     /// Decoding
     double decoded_0[VECTOR_SIZE], decoded_1[VECTOR_SIZE];
