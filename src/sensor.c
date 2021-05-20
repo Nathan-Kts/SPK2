@@ -3,6 +3,7 @@
 #include "public_to_private.h"
 #include "print_functions.h"
 #include "quality.h"
+#include "random.h"
 
 void sensor(int nbr_vectors, int vector_size, double received_public_lattice[nbr_vectors][vector_size], double new_private_lattice[nbr_vectors][vector_size], double intersection[nbr_vectors][vector_size]){
     double new_public_lattice[nbr_vectors][vector_size];
@@ -35,7 +36,7 @@ void sensor(int nbr_vectors, int vector_size, double received_public_lattice[nbr
         for (int j = 0; j < vector_size; j++)
             intersection[i][j] = modd(intersection[i][j], MODULO_LATTICE);
         if(intersection[i][i] < 0.1)
-            intersection[i][i] = 17.0;
+            intersection[i][i] = random_double(MODULO_LATTICE);
     }
 
 
